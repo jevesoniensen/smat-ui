@@ -6,7 +6,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
-import { authService } from '../services/AuthService';
+import { authService } from '../smat/home/services/AuthService';
 
 export const useAuth = () => {
   const navigate = useNavigate();

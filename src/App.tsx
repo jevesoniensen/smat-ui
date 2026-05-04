@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { SessionProvider } from './context/SessionContext';
 import { useAuth } from './hooks/useAuth';
 import { Layout } from './components/layout/Layout';
-import * as Pages from './pages';
+import * as Pages from './smat/home/pages';
 import './App.css';
 
 // Route Guard Component
