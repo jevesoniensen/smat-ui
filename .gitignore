@@ -24,3 +24,6 @@ yarn-error.log*
 /conversion_files/
 /.idea/
 /smat-ui.iml
+all_tsx_files.txt
+css_and_js__migration.md
+logged_files.txt

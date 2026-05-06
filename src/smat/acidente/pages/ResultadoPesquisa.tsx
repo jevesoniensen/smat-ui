@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import '../css/acidente.css';
 
 const ResultadoPesquisaPage: React.FC = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const ResultadoPesquisaPage: React.FC = () => {
           </thead>
           <tbody>
             {results.map((acidente: any) => (
-              <tr key={acidente.id} onClick={() => handleView(acidente.id)} style={{ cursor: 'pointer' }}>
+              <tr key={acidente.id} onClick={() => handleView(acidente.id)} className="clickable-row">
                 <td>{acidente.id}</td>
                 <td>{new Date(acidente.dataAcidente).toLocaleDateString()}</td>
                 <td>{acidente.trabalhador?.nome}</td>

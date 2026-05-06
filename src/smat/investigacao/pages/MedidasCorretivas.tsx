@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { investigacaoService as InvestigacaoService } from '../services/InvestigacaoService';
 import { ParametrosService } from '../../index';
 import { MedidaCorretivaInvestigacao, TipoMedidaCorretiva } from '../../../types/models';
+import '../css/investigacao.css';
 import { removeNonDigits } from '../../../utils/FormValidation';
 
 const MedidasCorretivasInvestigacaoPage: React.FC = () => {
@@ -173,7 +174,7 @@ const MedidasCorretivasInvestigacaoPage: React.FC = () => {
         </thead>
         <tbody>
           {medidasCorretivas.map((medida) => (
-            <tr key={medida.id} onClick={() => handleSelectMedida(medida)} style={{ cursor: 'pointer' }}>
+            <tr key={medida.id} onClick={() => handleSelectMedida(medida)} className="clickable-row">
               <td>
                 {tiposMedidaCorretiva.find(t => t.id === medida.tipoId)?.descricao || medida.tipoId}
               </td>

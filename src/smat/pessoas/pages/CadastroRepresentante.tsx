@@ -102,13 +102,14 @@ const CadastroRepresentantePage: React.FC = () => {
       <form onSubmit={handleSave}>
         <div className="form-group">
           <label>Empregador</label>
-          <input type="text" value={empregadorNome || 'N/A'} readOnly disabled />
+          <input type="text" className="form-control" value={empregadorNome || 'N/A'} readOnly disabled />
         </div>
 
         <div className="form-group">
-          <label>Nome do representante <span style={{color:'red'}}>*</span></label>
+          <label>Nome do representante <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -135,7 +136,7 @@ const CadastroRepresentantePage: React.FC = () => {
         </thead>
         <tbody>
           {representantes.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.id}</td>
               <td>{item.nome}</td>
             </tr>

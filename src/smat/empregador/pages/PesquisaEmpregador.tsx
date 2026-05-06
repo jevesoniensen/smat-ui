@@ -72,7 +72,7 @@ const PesquisaEmpregador: React.FC = () => {
             type="text"
             value={razaoSocial}
             onChange={(e) => setRazaoSocial(e.target.value)}
-            style={{ width: '100%' }}
+            className="form-control"
           />
         </div>
 
@@ -100,7 +100,7 @@ const PesquisaEmpregador: React.FC = () => {
           </thead>
           <tbody>
             {results.map((emp) => (
-              <tr key={emp.id} onClick={() => handleSelect(emp)} style={{ cursor: 'pointer' }}>
+              <tr key={emp.id} onClick={() => handleSelect(emp)} className="clickable-row">
                 <td>{emp.id}</td>
                 <td>{emp.razaoSocial}</td>
                 {/* Assuming nested object or helper field */}

@@ -115,9 +115,10 @@ const LocalAtendimentoPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Nome <span style={{color:'red'}}>*</span></label>
+          <label>Nome <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -126,16 +127,16 @@ const LocalAtendimentoPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Estado <span style={{color:'red'}}>*</span></label>
-          <select value={estadoId} onChange={handleEstadoChange} required>
+          <label>Estado <span className="required">*</span></label>
+          <select className="form-control" value={estadoId} onChange={handleEstadoChange} required>
             <option value="">-- Estado --</option>
             {estados.map(e => <option key={e.id} value={e.id}>{e.nome}</option>)}
           </select>
         </div>
 
         <div className="form-group">
-          <label>Município <span style={{color:'red'}}>*</span></label>
-          <select value={municipioId} onChange={e => setMunicipioId(e.target.value)} required>
+          <label>Município <span className="required">*</span></label>
+          <select className="form-control" value={municipioId} onChange={e => setMunicipioId(e.target.value)} required>
             <option value="">-- Municipio --</option>
             {municipios.map(m => <option key={m.id} value={m.id}>{m.nome}</option>)}
           </select>
@@ -159,7 +160,7 @@ const LocalAtendimentoPage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.nome}</td>
               <td>{/* Display municipio name */}</td>
             </tr>

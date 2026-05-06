@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { investigacaoService as InvestigacaoService } from '../services/InvestigacaoService';
 import { AcidenteService, PessoasService } from '../../index';
 import { Investigacao, AgenteSaude, Acidente } from '../../../types/models';
+import '../css/investigacao.css';
 
 const CadastroInvestigacaoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -166,10 +167,11 @@ const CadastroInvestigacaoPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Agente responsável <span style={{color:'red'}}>*</span></label>
+          <label>Agente responsável <span className="required">*</span></label>
           <select
             value={agenteSaudeId}
             onChange={e => setAgenteSaudeId(e.target.value)}
+            className="form-control"
             required
             disabled={isFinalized}
           >
@@ -179,11 +181,12 @@ const CadastroInvestigacaoPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Motivo <span style={{color:'red'}}>*</span></label>
+          <label>Motivo <span className="required">*</span></label>
           <input
             type="text"
             value={motivo}
             onChange={e => setMotivo(e.target.value)}
+            className="form-control"
             maxLength={100}
             disabled={isFinalized}
             // required
@@ -196,6 +199,7 @@ const CadastroInvestigacaoPage: React.FC = () => {
             rows={5}
             value={obsGerais}
             onChange={e => setObsGerais(e.target.value)}
+            className="form-control"
             disabled={isFinalized}
           />
         </div>
@@ -207,7 +211,7 @@ const CadastroInvestigacaoPage: React.FC = () => {
         </div>
 
         {form.id && (
-            <div className="form-actions" style={{marginTop: '10px'}}>
+            <div className="form-actions mt-10">
                 <button type="button" onClick={handleDetails}>DETALHES</button>
                 {!isFinalized && (
                     <>

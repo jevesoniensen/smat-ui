@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 import { 
   TipoAcidente, 
   TipoLocalAcidente, 
@@ -420,7 +421,7 @@ export const AcidentePassoDois: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="form-group col-md-2" style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <div className="form-group col-md-2 align-self-end">
               <button type="button" onClick={handleInserirLocalLesao} className="btn-secondary">INSERIR</button>
             </div>
           </div>
@@ -514,7 +515,7 @@ export const AcidentePassoDois: React.FC = () => {
           </div>
         </fieldset>
 
-        <div className="form-actions" style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div className="acidente-form-footer">
           <button type="button" onClick={handleVoltar} className="btn-secondary">VOLTAR</button>
           &nbsp;&nbsp;&nbsp;
           <button type="button" onClick={handleAvancar} className="btn-primary">AVANÇAR</button>

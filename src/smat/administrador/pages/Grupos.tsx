@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UsuarioService, GrupoService } from '../services/AdminService';
+import '../css/administrador.css';
 import { Usuario, Grupo, UsuarioGrupo } from '../../../types/models';
 
 const Grupos: React.FC = () => {

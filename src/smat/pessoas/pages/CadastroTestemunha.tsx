@@ -139,9 +139,10 @@ const CadastroTestemunhaPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Nome <span style={{color:'red'}}>*</span></label>
+          <label>Nome <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -152,14 +153,14 @@ const CadastroTestemunhaPage: React.FC = () => {
         <div className="form-row">
             <div className="form-group">
                 <label>Estado</label>
-                <select value={form.estadoId} onChange={handleEstadoChange}>
+                <select className="form-control" value={form.estadoId} onChange={handleEstadoChange}>
                     <option value="">-- Estado --</option>
                     {estados.map(e => <option key={e.id} value={e.id}>{e.sigla}</option>)}
                 </select>
             </div>
             <div className="form-group">
                 <label>Município</label>
-                <select value={form.municipioId} onChange={e => setForm({...form, municipioId: e.target.value})}>
+                <select className="form-control" value={form.municipioId} onChange={e => setForm({...form, municipioId: e.target.value})}>
                     <option value="">-- Municipio --</option>
                     {municipios.map(m => <option key={m.id} value={m.id}>{m.nome}</option>)}
                 </select>
@@ -168,43 +169,44 @@ const CadastroTestemunhaPage: React.FC = () => {
 
         <div className="form-group">
             <label>Rua</label>
-            <input type="text" value={form.rua} onChange={e => setForm({...form, rua: e.target.value})} maxLength={80} />
+            <input type="text" className="form-control" value={form.rua} onChange={e => setForm({...form, rua: e.target.value})} maxLength={80} />
         </div>
 
         <div className="form-group">
             <label>Bairro</label>
-            <input type="text" value={form.bairro} onChange={e => setForm({...form, bairro: e.target.value})} maxLength={60} />
+            <input type="text" className="form-control" value={form.bairro} onChange={e => setForm({...form, bairro: e.target.value})} maxLength={60} />
         </div>
 
         <div className="form-row">
             <div className="form-group">
                 <label>Número</label>
-                <input type="text" value={form.numero} onChange={e => setForm({...form, numero: e.target.value})} maxLength={5} />
+                <input type="text" className="form-control" value={form.numero} onChange={e => setForm({...form, numero: e.target.value})} maxLength={5} />
             </div>
             <div className="form-group">
                 <label>Complemento</label>
-                <input type="text" value={form.complemento} onChange={e => setForm({...form, complemento: e.target.value})} maxLength={10} />
+                <input type="text" className="form-control" value={form.complemento} onChange={e => setForm({...form, complemento: e.target.value})} maxLength={10} />
             </div>
             <div className="form-group">
                 <label>CEP</label>
-                <input type="text" value={form.cep} onChange={e => setForm({...form, cep: e.target.value})} maxLength={8} />
+                <input type="text" className="form-control" value={form.cep} onChange={e => setForm({...form, cep: e.target.value})} maxLength={8} />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
                 <label>Telefone</label>
-                <div style={{display: 'flex', gap: '5px'}}>
+                <div className="flex-gap-10">
                     <input
                         type="text"
+                        className="form-control w-50px"
                         value={form.ddd}
                         onChange={e => setForm({...form, ddd: e.target.value})}
                         maxLength={2}
-                        style={{width: '50px'}}
                         placeholder="DDD"
                     />
                     <input
                         type="text"
+                        className="form-control"
                         value={form.telefone}
                         onChange={e => setForm({...form, telefone: e.target.value})}
                         maxLength={8}
@@ -233,7 +235,7 @@ const CadastroTestemunhaPage: React.FC = () => {
         </thead>
         <tbody>
           {testemunhas.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.id}</td>
               <td>{item.nome}</td>
             </tr>

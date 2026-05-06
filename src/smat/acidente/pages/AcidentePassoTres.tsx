@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 import { Estado, Municipio } from '../../../types/models';
 import { formatCEP, maskPhone } from '../../../utils/formatting';
 
@@ -217,7 +218,7 @@ export const AcidentePassoTres: React.FC = () => {
             </div>
           </div>
 
-          <div className="form-actions" style={{ textAlign: 'center', marginTop: '10px' }}>
+          <div className="acidente-form-actions-small">
             <button type="button" onClick={handleInserirTestemunha} className="btn-secondary">INSERIR</button>
             &nbsp;&nbsp;&nbsp;
             <button type="button" onClick={handleLimparForm} className="btn-link">LIMPAR</button>
@@ -225,12 +226,12 @@ export const AcidentePassoTres: React.FC = () => {
         </fieldset>
 
         {vTestemunhas.length > 0 && (
-          <div className="selected-items" style={{ marginTop: '20px' }}>
+          <div className="acidente-selected-items">
             <table className="table">
               <thead>
                 <tr>
-                  <th style={{ backgroundColor: "#C0C0C0" }}  >Testemunhas Informadas</th>
-                  <th style={{ backgroundColor: "#C0C0C0" }}  >Ação</th>
+                  <th className="acidente-table-header">Testemunhas Informadas</th>
+                  <th className="acidente-table-header">Ação</th>
                 </tr>
               </thead>
               <tbody>
@@ -247,7 +248,7 @@ export const AcidentePassoTres: React.FC = () => {
           </div>
         )}
 
-        <div className="form-actions" style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div className="acidente-form-footer">
           <button type="button" onClick={handleVoltar} className="btn-secondary">VOLTAR</button>
           &nbsp;&nbsp;&nbsp;
           <button type="button" onClick={handleAvancar} className="btn-primary">AVANÇAR</button>

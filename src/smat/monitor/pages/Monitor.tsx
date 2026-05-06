@@ -126,7 +126,7 @@ const MonitorPage: React.FC = () => {
         )}
 
         <div className="form-group">
-          <label>Periodicidade <span style={{ color: 'red' }}>*</span></label>
+          <label>Periodicidade <span className="required">*</span></label>
           <select
             value={form.periodicidade}
             onChange={(e) => setForm({ ...form, periodicidade: parseInt(e.target.value, 10) })}
@@ -139,7 +139,7 @@ const MonitorPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Informação <span style={{ color: 'red' }}>*</span></label>
+          <label>Informação <span className="required">*</span></label>
           <select
             value={form.campo}
             onChange={handleCampoChange}
@@ -153,7 +153,7 @@ const MonitorPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Registro <span style={{ color: 'red' }}>*</span></label>
+          <label>Registro <span className="required">*</span></label>
           <select
             value={form.queryCampo}
             onChange={(e) => setForm({ ...form, queryCampo: parseInt(e.target.value, 10) })}
@@ -168,7 +168,7 @@ const MonitorPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Número máximo de acidentes <span style={{ color: 'red' }}>*</span></label>
+          <label>Número máximo de acidentes <span className="required">*</span></label>
           <input
             type="number"
             value={form.maxAcidente}
@@ -204,7 +204,7 @@ const MonitorPage: React.FC = () => {
         </thead>
         <tbody>
           {monitores.map((m) => (
-            <tr key={m.monitor} onClick={() => handleSelectMonitor(m)} style={{ cursor: 'pointer' }}>
+            <tr key={m.monitor} onClick={() => handleSelectMonitor(m)} className="clickable-row">
               <td>{m.monitor}</td>
               <td>{m.nomeCampo}</td>
               <td>{m.nomeRegistro}</td>

@@ -124,7 +124,7 @@ const TipoEmpregadorPage: React.FC = () => {
         </thead>
         <tbody>
           {tipos.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.id}</td>
               <td>{item.descricao}</td>
               <td>{item.codigo}</td>

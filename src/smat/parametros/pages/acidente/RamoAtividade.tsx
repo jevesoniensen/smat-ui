@@ -92,7 +92,7 @@ const RamoAtividadePage: React.FC = () => {
       <form onSubmit={handleSave}>
         <div className="form-group">
           <label>Nível</label>
-          <select value={parentId} onChange={e => setParentId(e.target.value)} disabled={!!form.id}>
+          <select className="form-control" value={parentId} onChange={e => setParentId(e.target.value)} disabled={!!form.id}>
             <option value="">-- Nível 1 --</option>
             {parentItems.map(p => (
                 <option key={p.id} value={p.id}>{p.nome}</option>
@@ -101,9 +101,10 @@ const RamoAtividadePage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Nome <span style={{color:'red'}}>*</span></label>
+          <label>Nome <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -115,6 +116,7 @@ const RamoAtividadePage: React.FC = () => {
           <label>CNAE</label>
           <input
             type="text"
+            className="form-control"
             value={form.cnae}
             onChange={e => setForm({...form, cnae: e.target.value})}
             maxLength={5}
@@ -139,7 +141,7 @@ const RamoAtividadePage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.nome}</td>
               {/* Display parent name. Need to lookup in parentItems */}
               <td>{parentItems.find(p => p.id === item.ramoSuperior)?.nome || '-'}</td>

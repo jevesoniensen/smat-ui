@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 import { 
   LocalAtendimento, 
   Diagnostico, 
@@ -273,7 +274,7 @@ export const AcidentePassoQuatro: React.FC = () => {
           </div>
         </fieldset>
 
-        <div className="form-actions" style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div className="acidente-form-footer">
           <button type="button" onClick={handleVoltar} className="btn-secondary">VOLTAR</button>
           &nbsp;&nbsp;&nbsp;
           <button type="button" onClick={handleAvancar} className="btn-primary">AVANÇAR</button>

@@ -91,13 +91,14 @@ const RegionalPage: React.FC = () => {
         {form.id && (
             <div className="form-group">
                 <label>ID</label>
-                <input type="text" value={form.id} disabled />
+                <input type="text" className="form-control" value={form.id} disabled />
             </div>
         )}
         <div className="form-group">
-          <label>Nome <span style={{color:'red'}}>*</span></label>
+          <label>Nome <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -109,6 +110,7 @@ const RegionalPage: React.FC = () => {
           <label>Endereço</label>
           <input
             type="text"
+            className="form-control"
             value={form.endereco}
             onChange={e => setForm({...form, endereco: e.target.value})}
             maxLength={255}
@@ -134,7 +136,7 @@ const RegionalPage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.nome}</td>
               <td>{item.endereco}</td>
               <td>

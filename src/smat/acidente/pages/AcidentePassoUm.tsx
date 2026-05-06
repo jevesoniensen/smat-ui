@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 import { 
   Emitente, 
   EstadoCivil, 
@@ -512,7 +513,7 @@ export const AcidentePassoUm: React.FC = () => {
           </div>
         </fieldset>
 
-        <div className="form-actions" style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div className="acidente-form-footer">
           <button type="button" onClick={handleAvancar} className="btn-primary">AVANÇAR</button>
         </div>
       </form>

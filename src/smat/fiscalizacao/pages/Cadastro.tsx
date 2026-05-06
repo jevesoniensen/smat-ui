@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { fiscalizacaoService as FiscalizacaoService } from '../services/FiscalizacaoService';
 import { PessoasService } from '../../index';
 import { Fiscalizacao, AgenteSaude, Empregador } from '../../../types/models';
+import '../css/fiscalizacao.css';
 
 const CadastroFiscalizacao: React.FC = () => {
   const navigate = useNavigate();
@@ -129,6 +130,7 @@ const CadastroFiscalizacao: React.FC = () => {
           <select
             value={agenteSaudeId}
             onChange={e => setAgenteSaudeId(e.target.value)}
+            className="form-control"
           >
             <option value="">-- Agente de Saude --</option>
             {agentesSaude.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
@@ -137,14 +139,14 @@ const CadastroFiscalizacao: React.FC = () => {
 
         <div className="form-group">
             <label>Empregador</label>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div className="flex-gap-10">
                 <input
                     type="text"
                     value={selectedEmpregador?.documento || ''}
                     readOnly
                     disabled
                     placeholder="Documento"
-                    style={{ width: '150px' }}
+                    className="form-control-disabled w-150px"
                 />
                 <input
                     type="text"
@@ -152,40 +154,43 @@ const CadastroFiscalizacao: React.FC = () => {
                     readOnly
                     disabled
                     placeholder="Razão Social"
-                    style={{ flex: 1 }}
+                    className="form-control-disabled flex-1"
                 />
                 <button type="button" onClick={handleSearchEmpregador}>PESQUISAR</button>
             </div>
-            <span style={{color:'red'}}>*</span>
+            <span className="required">*</span>
         </div>
 
         <div className="form-group">
-            <label>Data de abertura <span style={{color:'red'}}>*</span></label>
+            <label>Data de abertura <span className="required">*</span></label>
             <input
                 type="text"
                 value={dataAberturaStr}
                 onChange={e => setDataAberturaStr(e.target.value)}
                 placeholder="dd/mm/aaaa"
+                className="form-control"
                 maxLength={10}
             />
         </div>
 
         <div className="form-group">
-            <label>Titulo <span style={{color:'red'}}>*</span></label>
+            <label>Titulo <span className="required">*</span></label>
             <input
                 type="text"
                 value={form.titulo}
                 onChange={e => setForm({...form, titulo: e.target.value})}
+                className="form-control"
                 maxLength={100}
             />
         </div>
 
         <div className="form-group">
-            <label>Observações <span style={{color:'red'}}>*</span></label>
+            <label>Observações <span className="required">*</span></label>
             <textarea
                 rows={7}
                 value={form.obsGerais}
                 onChange={e => setForm({...form, obsGerais: e.target.value})}
+                className="form-control"
             />
         </div>
 

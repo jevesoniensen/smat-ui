@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { investigacaoService as InvestigacaoService } from '../services/InvestigacaoService';
 import { ParametrosService } from '../../index';
 import { MedidaCorretivaInvestigacao, TipoMedidaCorretiva } from '../../../types/models';
+import '../css/investigacao.css';
 
 const MedidasInvestigacaoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ const MedidasInvestigacaoPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Medida corretiva <span style={{color:'red'}}>*</span></label>
+          <label>Medida corretiva <span className="required">*</span></label>
           <select value={tipoMedidaVal} onChange={e => setTipoMedidaVal(e.target.value)} required>
             <option value="">-- Tipo de medida corretiva --</option>
             {tiposMedida.map(t => <option key={t.id} value={t.id}>{t.descricao}</option>)}
@@ -130,7 +131,7 @@ const MedidasInvestigacaoPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Prazo para cumprimento <span style={{color:'red'}}>*</span></label>
+          <label>Prazo para cumprimento <span className="required">*</span></label>
           <input
             type="number"
             value={prazoDias}
@@ -141,11 +142,12 @@ const MedidasInvestigacaoPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Observações <span style={{color:'red'}}>*</span></label>
+          <label>Observações <span className="required">*</span></label>
           <textarea
             rows={5}
             value={observacao}
             onChange={e => setObservacao(e.target.value)}
+            className="form-control"
             required
           />
         </div>
@@ -169,7 +171,7 @@ const MedidasInvestigacaoPage: React.FC = () => {
         </thead>
         <tbody>
           {medidas.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.descricao}</td>
               {/* Using description as placeholder if type name isn't directly available or mapped */}
               <td>{item.dataPrevista ? new Date(item.dataPrevista).toLocaleDateString() : '-'}</td>
@@ -182,3 +184,5 @@ const MedidasInvestigacaoPage: React.FC = () => {
 };
 
 export default MedidasInvestigacaoPage;
+
+

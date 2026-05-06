@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { empregadorService as EmpregadorService } from '../services/EmpregadorService';
 import { TelefoneEmpregador, Empregador } from '../../../types/models';
+import '../css/empregador.css';
 
 const TelefonesPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -108,29 +109,30 @@ const TelefonesPage: React.FC = () => {
       <form onSubmit={handleSave}>
         <div className="form-row">
             <div className="form-group">
-            <label>DDD <span style={{color:'red'}}>*</span></label>
+            <label>DDD <span className="required">*</span></label>
             <input
                 type="text"
                 value={form.ddd}
                 onChange={(e) => setForm({ ...form, ddd: e.target.value })}
                 maxLength={2}
-                style={{ width: '60px' }}
+                className="form-control ddd-input"
                 required
             />
             </div>
             <div className="form-group">
-            <label>Número <span style={{color:'red'}}>*</span></label>
+            <label>Número <span className="required">*</span></label>
             <input
                 type="text"
                 value={form.numero}
                 onChange={(e) => setForm({ ...form, numero: e.target.value })}
                 maxLength={9}
+                className="form-control"
                 required
             />
             </div>
         </div>
         <div className="form-group">
-          <label>Descrição <span style={{color:'red'}}>*</span></label>
+          <label>Descrição <span className="required">*</span></label>
           <input
             type="text"
             value={form.descricao}
@@ -159,7 +161,7 @@ const TelefonesPage: React.FC = () => {
         </thead>
         <tbody>
           {telefones.map((tel) => (
-            <tr key={tel.id} onClick={() => handleSelect(tel)} style={{ cursor: 'pointer' }}>
+            <tr key={tel.id} onClick={() => handleSelect(tel)} className="clickable-row">
               <td>{tel.descricao}</td>
               <td>{tel.ddd}</td>
               <td>{tel.numero}</td>

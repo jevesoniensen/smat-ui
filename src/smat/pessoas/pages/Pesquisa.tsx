@@ -91,6 +91,7 @@ const PesquisaPessoaPage: React.FC = () => {
         <div className="form-group">
           <label>Tipo de depoimento</label>
           <select
+            className="form-control"
             value={tipoDepoimentoId}
             onChange={e => setTipoDepoimentoId(e.target.value)}
           >
@@ -103,6 +104,7 @@ const PesquisaPessoaPage: React.FC = () => {
           <label>Nome</label>
           <input
             type="text"
+            className="form-control"
             value={nome}
             onChange={e => setNome(e.target.value)}
             maxLength={60}
@@ -126,7 +128,7 @@ const PesquisaPessoaPage: React.FC = () => {
           </thead>
           <tbody>
             {resultados.map((p) => (
-              <tr key={p.id} onClick={() => handleSelect(p)} style={{ cursor: 'pointer' }}>
+              <tr key={p.id} onClick={() => handleSelect(p)} className="clickable-row">
                 <td>{p.nome}</td>
               </tr>
             ))}
@@ -134,7 +136,7 @@ const PesquisaPessoaPage: React.FC = () => {
         </table>
       )}
 
-      <div style={{marginTop: '20px'}}>
+      <div className="mt-20">
         <button onClick={handleReturn}>RETORNAR</button>
       </div>
     </div>

@@ -311,7 +311,7 @@ const EmpregadorPage: React.FC = () => {
       <form onSubmit={handleSave}>
         {/* Row 1: Tipo Empregador */}
         <div className="form-group">
-          <label>Tipo Empregador <span style={{color:'red'}}>*</span></label>
+          <label>Tipo Empregador <span className="required">*</span></label>
           <select name="tipoEmpregadorId" value={form.tipoEmpregadorId} onChange={handleInputChange} required>
             <option value="">-- Tipo Empregador --</option>
             {tiposEmpregador.map(t => {
@@ -324,7 +324,7 @@ const EmpregadorPage: React.FC = () => {
 
         {/* Row 2: Ramo Superior */}
         <div className="form-group">
-          <label>Ramo Superior <span style={{color:'red'}}>*</span></label>
+          <label>Ramo Superior <span className="required">*</span></label>
           <select name="ramoSuperiorId" value={form.ramoSuperiorId} onChange={handleInputChange}>
             <option value="">-- Ramo Superior --</option>
             {ramosSuperiores.map(r => {
@@ -337,7 +337,7 @@ const EmpregadorPage: React.FC = () => {
 
         {/* Row 3: Ramo Atividade */}
         <div className="form-group">
-          <label>Ramo de atividade <span style={{color:'red'}}>*</span></label>
+          <label>Ramo de atividade <span className="required">*</span></label>
           <select name="ramoAtividadeId" value={form.ramoAtividadeId} onChange={handleInputChange}>
             <option value="">-- Ramo de atividade --</option>
             {filteredRamosAtividade.map(r => {
@@ -350,7 +350,7 @@ const EmpregadorPage: React.FC = () => {
 
         {/* Row 4: Estado */}
         <div className="form-group">
-          <label>Estado <span style={{color:'red'}}>*</span></label>
+          <label>Estado <span className="required">*</span></label>
           <select name="estadoId" value={form.estadoId} onChange={handleInputChange}>
             <option value="">-- Estado --</option>
             {estados.map(e => <option key={String(e.sigla)} value={String(e.sigla)}>{e.nome}</option>)}
@@ -359,7 +359,7 @@ const EmpregadorPage: React.FC = () => {
 
         {/* Row 5: Municipio */}
         <div className="form-group">
-          <label>Município <span style={{color:'red'}}>*</span></label>
+          <label>Município <span className="required">*</span></label>
           <select name="municipioId" value={form.municipioId} onChange={handleInputChange}>
             <option value="">-- Municipio --</option>
             {municipios.map(m => <option key={String(m.id)} value={String(m.id)}>{m.nome}</option>)}
@@ -378,7 +378,7 @@ const EmpregadorPage: React.FC = () => {
                 />
             </div>
             <div className="form-group">
-                <label>Razão social/Nome <span style={{color:'red'}}>*</span></label>
+                <label>Razão social/Nome <span className="required">*</span></label>
                 <input
                     type="text"
                     name="razaoSocial"
@@ -392,16 +392,16 @@ const EmpregadorPage: React.FC = () => {
         <h4>Endereço</h4>
         {/* Address Fields */}
         <div className="form-group">
-            <label>Rua <span style={{color:'red'}}>*</span></label>
+            <label>Rua <span className="required">*</span></label>
             <input type="text" name="rua" value={form.rua} onChange={handleInputChange} required />
         </div>
         <div className="form-group">
-            <label>Bairro <span style={{color:'red'}}>*</span></label>
+            <label>Bairro <span className="required">*</span></label>
             <input type="text" name="bairro" value={form.bairro} onChange={handleInputChange} required />
         </div>
         <div className="form-row">
             <div className="form-group">
-                <label>Numero <span style={{color:'red'}}>*</span></label>
+                <label>Numero <span className="required">*</span></label>
                 <input type="text" name="numero" value={form.numero} onChange={handleInputChange} required />
             </div>
             <div className="form-group">
@@ -409,7 +409,7 @@ const EmpregadorPage: React.FC = () => {
                 <input type="text" name="complemento" value={form.complemento} onChange={handleInputChange} />
             </div>
             <div className="form-group">
-                <label>CEP <span style={{color:'red'}}>*</span></label>
+                <label>CEP <span className="required">*</span></label>
                 <input type="text" name="cep" value={form.cep} onChange={handleInputChange} required />
             </div>
         </div>
@@ -441,7 +441,6 @@ const EmpregadorPage: React.FC = () => {
                   <button 
                     type="button" 
                     className="btn-link" 
-                    style={{ background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
                     onClick={() => handleSelectEmpregador(emp)}
                   >
                     {emp.id}
@@ -451,7 +450,6 @@ const EmpregadorPage: React.FC = () => {
                   <button 
                     type="button" 
                     className="btn-link" 
-                    style={{ background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
                     onClick={() => handleSelectEmpregador(emp)}
                   >
                     {emp.razaoSocial}
@@ -461,7 +459,6 @@ const EmpregadorPage: React.FC = () => {
                   <button 
                     type="button" 
                     className="btn-link" 
-                    style={{ background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
                     onClick={() => handleAddTelefone(emp.id)}
                   >
                     Incluir Telefone

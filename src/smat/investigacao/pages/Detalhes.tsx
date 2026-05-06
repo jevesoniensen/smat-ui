@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { investigacaoService as InvestigacaoService } from '../services/InvestigacaoService';
 import { Investigacao } from '../../../types/models';
+import '../css/investigacao.css';
 
 const DetalhesInvestigacaoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ const DetalhesInvestigacaoPage: React.FC = () => {
       {selected && !loading && (
         <div className="details-section card">
           <h4>Investigação nº {selected.id}</h4>
-          <table className="table-details" style={{ width: '100%', marginBottom: '20px' }}>
+          <table className="table-details w-100 mb-20">
             <tbody>
               <tr>
-                <td width="150"><strong>Agente responsável:</strong></td>
+                <td className="w-150px"><strong>Agente responsável:</strong></td>
                 <td>{selected.responsavel?.nome}</td>
               </tr>
               <tr>
@@ -105,7 +106,7 @@ const DetalhesInvestigacaoPage: React.FC = () => {
           {/* Depoimentos */}
           <h5>Depoimentos</h5>
           {selected.depoimentos && selected.depoimentos.length > 0 ? (
-            <table className="table" style={{ marginBottom: '20px' }}>
+            <table className="table mb-20">
               <thead>
                 <tr>
                   <th>Tipo</th>
@@ -130,7 +131,7 @@ const DetalhesInvestigacaoPage: React.FC = () => {
           {/* Medidas Corretivas */}
           <h5>Medidas Corretivas</h5>
           {selected.medidasCorretivasInvestigacao && selected.medidasCorretivasInvestigacao.length > 0 ? (
-            <table className="table" style={{ marginBottom: '20px' }}>
+            <table className="table mb-20">
               <thead>
                 <tr>
                   <th>Medida</th>
@@ -179,7 +180,7 @@ const DetalhesInvestigacaoPage: React.FC = () => {
         </thead>
         <tbody>
           {investigacoes.map((inv) => (
-            <tr key={inv.id} onClick={() => handleSelect(parseInt(inv.id))} style={{ cursor: 'pointer', backgroundColor: selected?.id === inv.id ? '#f0f0f0' : 'inherit' }}>
+            <tr key={inv.id} onClick={() => handleSelect(parseInt(inv.id))} className={`clickable-row ${selected?.id === inv.id ? 'selected-row' : ''}`}>
               <td>{inv.id}</td>
               <td>{inv.responsavel?.nome}</td>
               <td>{inv.descricao}</td>

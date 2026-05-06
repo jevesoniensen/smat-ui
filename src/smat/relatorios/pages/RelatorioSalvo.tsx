@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RelatorioService } from '../../index';
 import { RelatorioSalvo } from '../../../types/models';
+import '../css/relatorios.css';
 
 const RelatorioSalvoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const RelatorioSalvoPage: React.FC = () => {
 
       {/* Detail View */}
       {selectedReport ? (
-        <div className="card" style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ccc' }}>
+        <div className="card status-box mb-20">
           <h4>Detalhes do Relatório</h4>
           <p><strong>Título:</strong> {selectedReport.nomeRelatorio}</p>
           <p><strong>Data de criação:</strong> {new Date(selectedReport.dataSalvamento).toLocaleString()}</p>
@@ -78,7 +79,7 @@ const RelatorioSalvoPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div style={{ textAlign: 'center', margin: '20px' }}>
+        <div className="text-center mb-20">
           <h4>Selecione um relatório salvo na lista abaixo</h4>
         </div>
       )}
@@ -93,7 +94,7 @@ const RelatorioSalvoPage: React.FC = () => {
         </thead>
         <tbody>
           {reports.map((rep) => (
-            <tr key={rep.id} onClick={() => handleSelect(rep)} style={{ cursor: 'pointer', backgroundColor: selectedReport?.id === rep.id ? '#f0f0f0' : 'inherit' }}>
+            <tr key={rep.id} onClick={() => handleSelect(rep)} className={`clickable-row ${selectedReport?.id === rep.id ? 'selected-row' : ''}`}>
               <td>{rep.nomeRelatorio}</td>
               <td>Salvo em: {new Date(rep.dataSalvamento).toLocaleString()}</td>
             </tr>

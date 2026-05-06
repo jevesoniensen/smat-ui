@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AcidenteService, ParametrosService } from '../../index';
+import '../css/acidente.css';
 import { Estado, Regional, Municipio, TipoAcidente } from '../../../types/models';
 
 const PesquisaAcidentePage: React.FC = () => {

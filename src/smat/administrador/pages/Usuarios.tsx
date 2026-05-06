@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UsuarioService } from '../services/AdminService';
 import { PessoasService } from '../../index';
 import { Usuario, AgenteSaude } from '../../../types/models';
+import '../css/administrador.css';
 
 const Usuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -146,7 +147,7 @@ const Usuarios: React.FC = () => {
         </thead>
         <tbody>
           {usuarios.map((user) => (
-            <tr key={user.id} onClick={() => handleSelectUsuario(user)} style={{ cursor: 'pointer' }}>
+            <tr key={user.id} onClick={() => handleSelectUsuario(user)} className="clickable-row">
               <td>{user.id}</td>
               <td>{user.nome}</td>
             </tr>

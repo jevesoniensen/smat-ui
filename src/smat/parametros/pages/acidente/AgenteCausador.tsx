@@ -139,7 +139,7 @@ const AgenteCausadorPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Agente causador <span style={{color:'red'}}>*</span></label>
+          <label>Agente causador <span className="required">*</span></label>
           <input
             type="text"
             value={form.descricao}
@@ -177,7 +177,7 @@ const AgenteCausadorPage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.descricao}</td>
               <td>{/* Level 2 Name */}</td>
               <td>{/* Level 1 Name */}</td>

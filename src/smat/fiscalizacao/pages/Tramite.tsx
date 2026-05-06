@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fiscalizacaoService as FiscalizacaoService } from '../services/FiscalizacaoService';
 import { ParametrosService } from '../../index';
 import { TramiteFiscalizacao, Status, ItemFiscalizacao } from '../../../types/models';
+import '../css/fiscalizacao.css';
 
 const TramitePage: React.FC = () => {
   const navigate = useNavigate();
@@ -183,7 +184,7 @@ const TramitePage: React.FC = () => {
               )}
 
               {/* Actions */}
-              <div className="form-actions" style={{ marginTop: '10px' }}>
+              <div className="form-actions mt-10">
                   {isEditable && (
                       <>
                         <button onClick={handleRoteiro}>ROTEIRO</button>
@@ -194,10 +195,10 @@ const TramitePage: React.FC = () => {
               </div>
 
               {/* Status Change */}
-              <div className="status-section" style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc' }}>
+              <div className="status-section status-box mt-20">
                   {isEditable ? (
                       <>
-                        <select value={newStatus} onChange={e => setNewStatus(e.target.value)}>
+                        <select value={newStatus} onChange={e => setNewStatus(e.target.value)} className="form-control">
                             <option value="">-- Status do trâmite --</option>
                             {statusOptions.map(s => <option key={s.id} value={s.id}>{s.descricao}</option>)}
                         </select>
@@ -225,7 +226,7 @@ const TramitePage: React.FC = () => {
               </thead>
               <tbody>
                   {tramites.map(t => (
-                      <tr key={t.id} onClick={() => handleSelect(t)} style={{ cursor: 'pointer', backgroundColor: selectedTramite?.id === t.id ? '#f0f0f0' : 'inherit' }}>
+                      <tr key={t.id} onClick={() => handleSelect(t)} className={`clickable-row ${selectedTramite?.id === t.id ? 'selected-row' : ''}`}>
                           <td>{t.id}</td>
                           <td>{new Date(t.dataTramite).toLocaleDateString()}</td>
                           <td>{t.status}</td>
@@ -237,7 +238,7 @@ const TramitePage: React.FC = () => {
           <p>Não há nenhum trâmite cadastrado!</p>
       )}
 
-      <div style={{ marginTop: '20px' }}>
+      <div className="mt-20">
         <button onClick={handleReturn}>RETORNAR</button>
       </div>
     </div>

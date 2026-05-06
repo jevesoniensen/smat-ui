@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RelatorioService, ParametrosService, MonitorService } from '../../index';
 import { Estado, Regional, Municipio, Campo, AuxCampo } from '../../../types/models';
+import '../css/relatorios.css';
 
 const ParametrosRelatorioPage: React.FC = () => {
   const navigate = useNavigate();
@@ -180,7 +181,7 @@ const ParametrosRelatorioPage: React.FC = () => {
 
       <div className="form-group">
           <label>Periodicidade</label>
-          <select value={periodicidade} onChange={e => setPeriodicidade(e.target.value)}>
+          <select className="form-control" value={periodicidade} onChange={e => setPeriodicidade(e.target.value)}>
               <option value="">Select</option>
               <option value="1">Mensal</option>
               <option value="2">Anual</option>
@@ -191,11 +192,11 @@ const ParametrosRelatorioPage: React.FC = () => {
           <div className="form-row">
               <div className="form-group">
                   <label>Mês/Ano inicial (mmaaaa)</label>
-                  <input type="text" value={mesAnoInicial} onChange={e => setMesAnoInicial(e.target.value)} maxLength={7} />
+                  <input type="text" className="form-control" value={mesAnoInicial} onChange={e => setMesAnoInicial(e.target.value)} maxLength={7} />
               </div>
               <div className="form-group">
                   <label>Mês/Ano final (mmaaaa)</label>
-                  <input type="text" value={mesAnoFinal} onChange={e => setMesAnoFinal(e.target.value)} maxLength={7} />
+                  <input type="text" className="form-control" value={mesAnoFinal} onChange={e => setMesAnoFinal(e.target.value)} maxLength={7} />
               </div>
           </div>
       )}
@@ -203,11 +204,11 @@ const ParametrosRelatorioPage: React.FC = () => {
           <div className="form-row">
               <div className="form-group">
                   <label>Ano inicial (aaaa)</label>
-                  <input type="text" value={anoInicial} onChange={e => setAnoInicial(e.target.value)} maxLength={4} />
+                  <input type="text" className="form-control" value={anoInicial} onChange={e => setAnoInicial(e.target.value)} maxLength={4} />
               </div>
               <div className="form-group">
                   <label>Ano final (aaaa)</label>
-                  <input type="text" value={anoFinal} onChange={e => setAnoFinal(e.target.value)} maxLength={4} />
+                  <input type="text" className="form-control" value={anoFinal} onChange={e => setAnoFinal(e.target.value)} maxLength={4} />
               </div>
           </div>
       )}
@@ -223,7 +224,7 @@ const ParametrosRelatorioPage: React.FC = () => {
 
       <div className="form-group">
           <label>Estado</label>
-          <select value={estadoId} onChange={handleEstadoChange}>
+          <select className="form-control" value={estadoId} onChange={handleEstadoChange}>
               <option value="">-- Selecione o Estado --</option>
               {estados.map(e => <option key={e.id} value={e.id}>{e.sigla}</option>)}
           </select>
@@ -234,7 +235,7 @@ const ParametrosRelatorioPage: React.FC = () => {
 
       <div className="form-group">
           <label>Informação 1</label>
-          <select value={campo1Id} onChange={e => handleCampoChange(1, e.target.value)}>
+          <select className="form-control" value={campo1Id} onChange={e => handleCampoChange(1, e.target.value)}>
               <option value="">-- Selecione --</option>
               {campos.map(c => <option key={c.campo} value={c.campo}>{c.label}</option>)}
           </select>
@@ -243,7 +244,7 @@ const ParametrosRelatorioPage: React.FC = () => {
 
       <div className="form-group">
           <label>Informação 2</label>
-          <select value={campo2Id} onChange={e => handleCampoChange(2, e.target.value)}>
+          <select className="form-control" value={campo2Id} onChange={e => handleCampoChange(2, e.target.value)}>
               <option value="">-- Selecione --</option>
               {campos.map(c => <option key={c.campo} value={c.campo}>{c.label}</option>)}
           </select>
@@ -252,12 +253,12 @@ const ParametrosRelatorioPage: React.FC = () => {
 
       <div className="form-group">
           <label>Título</label>
-          <input type="text" value={titulo} onChange={e => setTitulo(e.target.value)} style={{width: '100%'}} />
+          <input type="text" className="form-control w-100" value={titulo} onChange={e => setTitulo(e.target.value)} />
       </div>
 
       <div className="form-group">
           <label>Texto</label>
-          <textarea rows={5} value={texto} onChange={e => setTexto(e.target.value)} style={{width: '100%'}} />
+          <textarea rows={5} className="form-control w-100" value={texto} onChange={e => setTexto(e.target.value)} />
       </div>
 
       <div className="form-actions">

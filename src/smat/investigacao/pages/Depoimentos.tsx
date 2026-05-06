@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { investigacaoService as InvestigacaoService } from '../services/InvestigacaoService';
 import { ParametrosService } from '../../index';
 import { Depoimento, TipoDepoimento, AgenteCausador } from '../../../types/models';
+import '../css/investigacao.css';
 
 const DepoimentosPage: React.FC = () => {
   const navigate = useNavigate();
@@ -154,7 +155,7 @@ const DepoimentosPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-            <label>Data e Hora <span style={{color:'red'}}>*</span></label>
+            <label>Data e Hora <span className="required">*</span></label>
             <input
                 type="text"
                 value={dataHoraStr}
@@ -164,10 +165,11 @@ const DepoimentosPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-            <label>Tipo de testemunha <span style={{color:'red'}}>*</span></label>
+            <label>Tipo de testemunha <span className="required">*</span></label>
             <select
                 value={form.tipoDepoimentoId}
                 onChange={e => setForm({...form, tipoDepoimentoId: e.target.value})}
+                className="form-control"
                 required
             >
                 <option value="">-- Tipo de testemunha --</option>
@@ -176,9 +178,9 @@ const DepoimentosPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-            <label>Nome <span style={{color:'red'}}>*</span></label>
-            <div style={{display: 'flex', gap: '10px'}}>
-                <input type="text" value={nomePessoa} readOnly disabled style={{flex: 1}} />
+            <label>Nome <span className="required">*</span></label>
+            <div className="flex-gap-10">
+                <input type="text" value={nomePessoa} readOnly disabled className="form-control-disabled flex-1" />
                 <button type="button" onClick={handleSearchPerson}>PESQUISAR</button>
             </div>
         </div>
@@ -189,6 +191,7 @@ const DepoimentosPage: React.FC = () => {
                 rows={5}
                 value={form.relato}
                 onChange={e => setForm({...form, relato: e.target.value})}
+                className="form-control"
             />
         </div>
 
@@ -224,7 +227,7 @@ const DepoimentosPage: React.FC = () => {
         </thead>
         <tbody>
           {depoimentos.map((d) => (
-            <tr key={d.id} onClick={() => handleSelect(d)} style={{ cursor: 'pointer' }}>
+            <tr key={d.id} onClick={() => handleSelect(d)} className="clickable-row">
               <td>{new Date(d.dataDepoimento).toLocaleString()}</td>
               <td>{d.tipo}</td>
               <td>{d.testemunha?.nome}</td>

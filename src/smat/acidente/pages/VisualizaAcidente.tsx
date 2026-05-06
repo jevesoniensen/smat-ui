@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 
 const STORAGE_KEY = 'objAcidente';
 const LESOES_STORAGE_KEY = 'vLocalLesaoAcidente';
@@ -79,120 +80,120 @@ const VisualizaAcidentePage: React.FC = () => {
 
   const renderValue = (value: any) => (value !== undefined && value !== null && value !== '') ? String(value) : '---';
 
-  if (loading) return <div className="container" style={{ textAlign: 'center', marginTop: '50px' }}>Carregando...</div>;
+  if (loading) return <div className="container acidente-loading">Carregando...</div>;
   
   if (message) return (
-    <div className="container" style={{ marginTop: '50px' }}>
-      <div className="alert alert-danger" style={{ color: '#721c24', backgroundColor: '#f8d7da', border: '1px solid #f5c6cb', padding: '15px', borderRadius: '4px' }}>
+    <div className="container acidente-error-msg">
+      <div className="acidente-alert-danger">
         {message}
       </div>
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button onClick={handleBack} className="btn-secondary" style={{ padding: '10px 25px', cursor: 'pointer', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px' }}>VOLTAR</button>
+      <div className="acidente-view-actions">
+        <button onClick={handleBack} className="btn-voltar-large">VOLTAR</button>
       </div>
     </div>
   );
 
-  if (!acidente) return <div className="container" style={{ textAlign: 'center', marginTop: '50px' }}>Acidente não encontrado.</div>;
+  if (!acidente) return <div className="container acidente-loading">Acidente não encontrado.</div>;
 
   return (
-    <div className="container" style={{ paddingBottom: '50px', maxWidth: '900px' }}>
-      <h3 style={{ textAlign: 'center', backgroundColor: '#3367A3', color: 'white', padding: '15px', marginBottom: '0', borderRadius: '4px 4px 0 0' }}>
+    <div className="container acidente-view-container">
+      <h3 className="acidente-view-header">
         {preview ? 'PRÉ-VISUALIZAÇÃO DO ACIDENTE' : `VISUALIZAÇÃO DO ACIDENTE Nº ${acidente.id}`}
       </h3>
 
-      <div style={{ border: '1px solid #3367A3', padding: '2px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', fontFamily: 'Verdana, sans-serif' }}>
+      <div className="acidente-view-table-wrapper">
+        <table className="acidente-view-table">
           <tbody>
             {/* INFORMAÇÕES GERAIS */}
             <tr>
-              <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>INFORMAÇÕES GERAIS</th>
+              <th colSpan={8} className="acidente-view-section-title">INFORMAÇÕES GERAIS</th>
             </tr>
             <tr>
-              <td style={{ width: '15%', fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Emitente</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeEmitente || acidente.emitente)}</td>
+              <td className="acidente-view-label accidente-view-label-width">Emitente</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.nomeEmitente || acidente.emitente)}</td>
             </tr>
             {acidente.razaoSocial && (
               <tr>
-                <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Empregador</td>
-                <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.documento)} - {renderValue(acidente.razaoSocial)}</td>
+                <td className="acidente-view-label">Empregador</td>
+                <td colSpan={7} className="acidente-view-value">{renderValue(acidente.documento)} - {renderValue(acidente.razaoSocial)}</td>
               </tr>
             )}
 
             {/* TRABALHADOR */}
             <tr>
-              <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>TRABALHADOR</th>
+              <th colSpan={8} className="acidente-view-section-title">TRABALHADOR</th>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Nome</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nome)}</td>
+              <td className="acidente-view-label">Nome</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.nome)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Nascimento</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{formatDisplayDate(acidente.dataNascimento)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Sexo</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeSexo || (acidente.sexo === 'M' ? 'Masculino' : (acidente.sexo === 'F' ? 'Feminino' : '')))}</td>
+              <td className="acidente-view-label">Nascimento</td>
+              <td colSpan={3} className="acidente-view-value">{formatDisplayDate(acidente.dataNascimento)}</td>
+              <td className="acidente-view-label">Sexo</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeSexo || (acidente.sexo === 'M' ? 'Masculino' : (acidente.sexo === 'F' ? 'Feminino' : '')))}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Estado Civil</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeEstadoCivil || acidente.estadoCivil)}</td>
+              <td className="acidente-view-label">Estado Civil</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.nomeEstadoCivil || acidente.estadoCivil)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>CTPS</td>
-              <td style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.ctps)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Série</td>
-              <td style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.serie)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Emissão</td>
-              <td style={{ padding: '8px', border: '1px solid black' }}>{formatDisplayDate(acidente.dataEmissaoCTPS)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>UF</td>
-              <td style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeUFCTPS || acidente.ufCTPS)}</td>
+              <td className="acidente-view-label">CTPS</td>
+              <td className="acidente-view-value">{renderValue(acidente.ctps)}</td>
+              <td className="acidente-view-label">Série</td>
+              <td className="acidente-view-value">{renderValue(acidente.serie)}</td>
+              <td className="acidente-view-label">Emissão</td>
+              <td className="acidente-view-value">{formatDisplayDate(acidente.dataEmissaoCTPS)}</td>
+              <td className="acidente-view-label">UF</td>
+              <td className="acidente-view-value">{renderValue(acidente.nomeUFCTPS || acidente.ufCTPS)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>CPF</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.cpf)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>PIS/NIT</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.pisPasepNit)}</td>
+              <td className="acidente-view-label">CPF</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.cpf)}</td>
+              <td className="acidente-view-label">PIS/NIT</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.pisPasepNit)}</td>
             </tr>
 
             {/* ENDEREÇO */}
             <tr>
-              <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>ENDEREÇO DO ACIDENTADO</th>
+              <th colSpan={8} className="acidente-view-section-title">ENDEREÇO DO ACIDENTADO</th>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Estado</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeEstado || acidente.estado)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Município</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeMunicipio || acidente.municipio)}</td>
+              <td className="acidente-view-label">Estado</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeEstado || acidente.estado)}</td>
+              <td className="acidente-view-label">Município</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeMunicipio || acidente.municipio)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Rua</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.rua)}</td>
+              <td className="acidente-view-label">Rua</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.rua)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Bairro</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.bairro)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Número</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.numero)}</td>
+              <td className="acidente-view-label">Bairro</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.bairro)}</td>
+              <td className="acidente-view-label">Número</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.numero)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Telefone</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.ddd)} - {renderValue(acidente.telefone)}</td>
+              <td className="acidente-view-label">Telefone</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.ddd)} - {renderValue(acidente.telefone)}</td>
             </tr>
 
             {/* TESTEMUNHAS */}
             {testemunhas.length > 0 && (
               <>
                 <tr>
-                  <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>TESTEMUNHAS</th>
+                  <th colSpan={8} className="acidente-view-section-title">TESTEMUNHAS</th>
                 </tr>
                 {testemunhas.map((t, idx) => (
                   <React.Fragment key={idx}>
                     <tr>
-                      <td colSpan={2} style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black', backgroundColor: '#f9f9f9' }}>Testemunha {idx + 1}</td>
-                      <td colSpan={6} style={{ padding: '8px', border: '1px solid black', backgroundColor: '#f9f9f9' }}>{renderValue(t.nomeTestemunha)}</td>
+                      <td colSpan={2} className="acidente-view-label acidente-view-row-highlight">Testemunha {idx + 1}</td>
+                      <td colSpan={6} className="acidente-view-value acidente-view-row-highlight">{renderValue(t.nomeTestemunha)}</td>
                     </tr>
                     <tr>
-                      <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Cidade</td>
-                      <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(t.nomeMunicipio)} / {renderValue(t.nomeEstado)}</td>
+                      <td className="acidente-view-label">Cidade</td>
+                      <td colSpan={7} className="acidente-view-value">{renderValue(t.nomeMunicipio)} / {renderValue(t.nomeEstado)}</td>
                     </tr>
                   </React.Fragment>
                 ))}
@@ -201,35 +202,35 @@ const VisualizaAcidentePage: React.FC = () => {
 
             {/* ACIDENTE OU DOENÇA */}
             <tr>
-              <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>ACIDENTE OU DOENÇA</th>
+              <th colSpan={8} className="acidente-view-section-title">ACIDENTE OU DOENÇA</th>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Data</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{formatDisplayDate(acidente.dataAcidente)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Hora</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.hora)}</td>
+              <td className="acidente-view-label">Data</td>
+              <td colSpan={3} className="acidente-view-value">{formatDisplayDate(acidente.dataAcidente)}</td>
+              <td className="acidente-view-label">Hora</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.hora)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Tipo</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeTipoAcidente || acidente.tipoAcidente)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Local</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeTipoLocalAcidente || acidente.tipoLocalAcidente)}</td>
+              <td className="acidente-view-label">Tipo</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeTipoAcidente || acidente.tipoAcidente)}</td>
+              <td className="acidente-view-label">Local</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeTipoLocalAcidente || acidente.tipoLocalAcidente)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Empresa Terceira</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.documentoEmpresaTerceira)} - {renderValue(acidente.razaoSocialEmpresaterceira)}</td>
+              <td className="acidente-view-label">Empresa Terceira</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.documentoEmpresaTerceira)} - {renderValue(acidente.razaoSocialEmpresaterceira)}</td>
             </tr>
 
             {/* LOCAIS DA LESÃO */}
             {lesoes.length > 0 && (
               <>
                 <tr>
-                  <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>LOCAIS DA LESÃO SELECIONADOS</th>
+                  <th colSpan={8} className="acidente-view-section-title">LOCAIS DA LESÃO SELECIONADOS</th>
                 </tr>
                 {lesoes.map((l, idx) => (
                   <tr key={idx}>
-                    <td colSpan={2} style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Local {idx + 1}</td>
-                    <td colSpan={6} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(l.nome)}</td>
+                    <td colSpan={2} className="acidente-view-label">Local {idx + 1}</td>
+                    <td colSpan={6} className="acidente-view-value">{renderValue(l.nome)}</td>
                   </tr>
                 ))}
               </>
@@ -237,33 +238,32 @@ const VisualizaAcidentePage: React.FC = () => {
 
             {/* ATESTADO MÉDICO */}
             <tr>
-              <th colSpan={8} style={{ backgroundColor: '#C0C0C0', textAlign: 'center', padding: '8px', border: '1px solid black' }}>ATESTADO MÉDICO E FONTE</th>
+              <th colSpan={8} className="acidente-view-section-title">ATESTADO MÉDICO E FONTE</th>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Diagnóstico</td>
-              <td colSpan={7} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeDiagnostico || acidente.diagnostico)}</td>
+              <td className="acidente-view-label">Diagnóstico</td>
+              <td colSpan={7} className="acidente-view-value">{renderValue(acidente.nomeDiagnostico || acidente.diagnostico)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Médico</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.medicoNome)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>CRM</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.crm)} / {renderValue(acidente.ufCRM)}</td>
+              <td className="acidente-view-label">Médico</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.medicoNome)}</td>
+              <td className="acidente-view-label">CRM</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.crm)} / {renderValue(acidente.ufCRM)}</td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Fonte</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.nomeFonte || acidente.fonte)}</td>
-              <td style={{ fontWeight: 'bold', padding: '8px', border: '1px solid black' }}>Doc. Fonte</td>
-              <td colSpan={3} style={{ padding: '8px', border: '1px solid black' }}>{renderValue(acidente.numDocFonte)} ({formatDisplayDate(acidente.dataEmissaoFonte)})</td>
+              <td className="acidente-view-label">Fonte</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.nomeFonte || acidente.fonte)}</td>
+              <td className="acidente-view-label">Doc. Fonte</td>
+              <td colSpan={3} className="acidente-view-value">{renderValue(acidente.numDocFonte)} ({formatDisplayDate(acidente.dataEmissaoFonte)})</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="form-actions" style={{ marginTop: '30px', textAlign: 'center' }}>
+      <div className="acidente-view-actions">
         <button 
           onClick={handleBack} 
-          className="btn-secondary" 
-          style={{ padding: '10px 30px', cursor: 'pointer', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', fontSize: '1rem' }}
+          className="btn-voltar-large"
         >
           VOLTAR
         </button>

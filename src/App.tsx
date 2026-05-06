@@ -6,9 +6,8 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { SessionProvider } from './context/SessionContext';
-import { useAuth } from './hooks/useAuth';
-import { Layout } from './components/layout/Layout';
+import { SessionProvider } from './smat/auth/services/SessionContext';
+import { useAuth } from './smat/auth/services/useAuth';
 import * as Pages from './smat/home/pages';
 import './App.css';
 
@@ -38,7 +37,7 @@ const AppRoutes: React.FC = () => {
       {/* Protected Routes within Main Layout */}
       <Route element={
         <ProtectedRoute>
-          <Layout />
+          <Pages.Layout />
         </ProtectedRoute>
       }>
         <Route path="/" element={<Navigate to="/welcome" replace />} />

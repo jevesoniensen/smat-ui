@@ -124,9 +124,10 @@ const AgenteSaudePage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Nome <span style={{color:'red'}}>*</span></label>
+          <label>Nome <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.nome}
             onChange={e => setForm({...form, nome: e.target.value})}
             required
@@ -135,9 +136,10 @@ const AgenteSaudePage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>E-mail <span style={{color:'red'}}>*</span></label>
+          <label>E-mail <span className="required">*</span></label>
           <input
             type="email"
+            className="form-control"
             value={form.email}
             onChange={e => setForm({...form, email: e.target.value})}
             required
@@ -146,16 +148,26 @@ const AgenteSaudePage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Estado <span style={{color:'red'}}>*</span></label>
-          <select value={form.estadoId} onChange={handleEstadoChange} required>
+          <label>Estado <span className="required">*</span></label>
+          <select 
+            className="form-control"
+            value={form.estadoId} 
+            onChange={handleEstadoChange} 
+            required
+          >
             <option value="">-- Estados --</option>
             {estados.map(e => <option key={e.id} value={e.id}>{e.sigla}</option>)}
           </select>
         </div>
 
         <div className="form-group">
-          <label>Regional <span style={{color:'red'}}>*</span></label>
-          <select value={form.regionalId} onChange={e => setForm({...form, regionalId: e.target.value})} required>
+          <label>Regional <span className="required">*</span></label>
+          <select 
+            className="form-control"
+            value={form.regionalId} 
+            onChange={e => setForm({...form, regionalId: e.target.value})} 
+            required
+          >
             <option value="">-- Regionais --</option>
             {regionais.map(r => <option key={r.id} value={r.id}>{r.nome}</option>)}
           </select>
@@ -180,7 +192,7 @@ const AgenteSaudePage: React.FC = () => {
         </thead>
         <tbody>
           {agentes.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.id}</td>
               <td>{item.nome}</td>
               <td>{item.email}</td>

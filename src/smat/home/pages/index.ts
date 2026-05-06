@@ -3,6 +3,8 @@ export { default as Login } from './Login';
 export { default as Error } from './Error';
 export { default as AccessDenied } from './AccessDenied';
 export { default as Welcome } from './Welcome';
+export { default as Layout } from './Layout';
+export { default as Menu } from './Menu';
 
 // Acidente pages
 export { default as AcidentePassoUm } from '../../acidente/pages/AcidentePassoUm';

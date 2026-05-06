@@ -89,13 +89,14 @@ const PontosFiscalizacaoPage: React.FC = () => {
         {form.id && (
             <div className="form-group">
                 <label>ID</label>
-                <input type="text" value={form.id} disabled />
+                <input type="text" className="form-control" value={form.id} disabled />
             </div>
         )}
         <div className="form-group">
-          <label>Descrição <span style={{color:'red'}}>*</span></label>
+          <label>Descrição <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.descricao}
             onChange={e => setForm({...form, descricao: e.target.value})}
             required
@@ -107,6 +108,7 @@ const PontosFiscalizacaoPage: React.FC = () => {
           <label>Endereço</label>
           <input
             type="text"
+            className="form-control"
             value={form.endereco}
             onChange={e => setForm({...form, endereco: e.target.value})}
             maxLength={255}
@@ -117,6 +119,7 @@ const PontosFiscalizacaoPage: React.FC = () => {
           <label>Telefone</label>
           <input
             type="text"
+            className="form-control"
             value={form.telefone}
             onChange={e => setForm({...form, telefone: e.target.value})}
             maxLength={20}
@@ -127,6 +130,7 @@ const PontosFiscalizacaoPage: React.FC = () => {
           <label>Responsável</label>
           <input
             type="text"
+            className="form-control"
             value={form.responsavel}
             onChange={e => setForm({...form, responsavel: e.target.value})}
             maxLength={100}
@@ -151,7 +155,7 @@ const PontosFiscalizacaoPage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.descricao}</td>
               <td>{item.responsavel}</td>
             </tr>

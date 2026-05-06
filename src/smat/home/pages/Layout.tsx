@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Menu } from './Menu';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth/services/useAuth';
 
 export const Layout: React.FC = () => {
   const { user, menu, logout } = useAuth(); // Assuming useAuth provides user and menu
@@ -17,7 +17,7 @@ export const Layout: React.FC = () => {
 
   return (
     <div className="app-container">
-      <header className="app-header" style={{ backgroundImage: "url('/assets/images/index/backgrd_top.gif')" }}>
+      <header className="app-header">
         <button className="menu-toggle" onClick={toggleMobileMenu} aria-label="Toggle Menu">
           {isMobileMenuOpen ? '✕' : '☰'}
         </button>
@@ -46,3 +46,5 @@ export const Layout: React.FC = () => {
     </div>
   );
 };
+
+export default Layout;

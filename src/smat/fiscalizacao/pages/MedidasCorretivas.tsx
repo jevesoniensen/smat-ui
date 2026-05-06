@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fiscalizacaoService as FiscalizacaoService } from '../services/FiscalizacaoService';
 import { ParametrosService } from '../../index';
 import { MedidaCorretivaFiscalizacao, TipoMedidaCorretiva } from '../../../types/models';
+import '../css/fiscalizacao.css';
 
 const MedidasCorretivasPage: React.FC = () => {
   const navigate = useNavigate();
@@ -121,7 +122,7 @@ const MedidasCorretivasPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Tipo medida corretiva <span style={{color:'red'}}>*</span></label>
+          <label>Tipo medida corretiva <span className="required">*</span></label>
           <select value={tipoMedidaVal} onChange={e => setTipoMedidaVal(e.target.value)} required>
             <option value="">-- Tipo de medida corretiva --</option>
             {tiposMedida.map(t => <option key={t.id} value={t.descricao}>{t.descricao}</option>)}
@@ -129,7 +130,7 @@ const MedidasCorretivasPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Prazo (dias) <span style={{color:'red'}}>*</span></label>
+          <label>Prazo (dias) <span className="required">*</span></label>
           <input
             type="number"
             value={prazoDias}
@@ -140,7 +141,7 @@ const MedidasCorretivasPage: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Observações <span style={{color:'red'}}>*</span></label>
+          <label>Observações <span className="required">*</span></label>
           <textarea
             rows={3}
             value={observacao}
@@ -168,7 +169,7 @@ const MedidasCorretivasPage: React.FC = () => {
         </thead>
         <tbody>
           {medidas.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.tipo}</td>
               {/* Display prazo if available in model */}
               <td>{(item as any).prazoDias || '-'}</td>
@@ -177,7 +178,7 @@ const MedidasCorretivasPage: React.FC = () => {
         </tbody>
       </table>
 
-      <div style={{marginTop: '20px'}}>
+      <div className="mt-20">
         <button onClick={handleReturn}>RETORNAR</button>
       </div>
     </div>

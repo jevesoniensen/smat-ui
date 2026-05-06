@@ -104,9 +104,10 @@ const TelefonesRegionaisPage: React.FC = () => {
 
       <form onSubmit={handleSave}>
         <div className="form-group">
-          <label>Número <span style={{color:'red'}}>*</span></label>
+          <label>Número <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.numero}
             onChange={e => setForm({...form, numero: e.target.value})}
             required
@@ -118,6 +119,7 @@ const TelefonesRegionaisPage: React.FC = () => {
           <label>Ramal</label>
           <input
             type="text"
+            className="form-control"
             value={form.ramal}
             onChange={e => setForm({...form, ramal: e.target.value})}
             maxLength={10}
@@ -143,7 +145,7 @@ const TelefonesRegionaisPage: React.FC = () => {
         </thead>
         <tbody>
           {telefones.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.numero}</td>
               <td>{item.ramal}</td>
             </tr>

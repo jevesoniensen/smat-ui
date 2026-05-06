@@ -80,7 +80,7 @@ const VinculoPage: React.FC = () => {
 
       <div className="form-group">
         <label>Ponto de fiscalização</label>
-        <select value={selectedPontoId} onChange={handlePontoChange}>
+        <select className="form-control" value={selectedPontoId} onChange={handlePontoChange}>
             <option value="">-- Selecione o Ponto --</option>
             {pontos.map(p => <option key={p.id} value={p.id}>{p.descricao}</option>)}
         </select>
@@ -96,7 +96,7 @@ const VinculoPage: React.FC = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th style={{width: '50px'}}>Selecionar</th>
+                        <th className="w-50px">Selecionar</th>
                         <th>Descrição</th>
                     </tr>
                 </thead>

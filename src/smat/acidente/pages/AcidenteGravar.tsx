@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
+import '../css/acidente.css';
 
 const STORAGE_KEY = 'objAcidente';
 const LESOES_STORAGE_KEY = 'vLocalLesaoAcidente';
@@ -146,70 +147,35 @@ export const AcidenteGravar: React.FC = () => {
   };
 
   return (
-    <div className="container" style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="acidente-container">
       <h2>Gravar Acidente</h2>
 
       {error && (
-        <div className="alert alert-danger" style={{ 
-          color: '#721c24', 
-          backgroundColor: '#f8d7da', 
-          border: '1px solid #f5c6cb', 
-          padding: '15px', 
-          borderRadius: '4px', 
-          width: '100%', 
-          maxWidth: '600px',
-          marginBottom: '20px',
-          textAlign: 'center'
-        }}>
+        <div className="acidente-alert-danger">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="alert alert-success" style={{ 
-          color: '#155724', 
-          backgroundColor: '#d4edda', 
-          border: '1px solid #c3e6cb', 
-          padding: '15px', 
-          borderRadius: '4px', 
-          width: '100%', 
-          maxWidth: '600px',
-          marginBottom: '20px',
-          textAlign: 'center'
-        }}>
+        <div className="acidente-alert-success">
           <strong>Acidente gravado com sucesso!</strong>
         </div>
       )}
 
       {hasData ? (
-        <div style={{ textAlign: 'center', width: '100%', maxWidth: '600px' }}>
-          <div className="warning-box" style={{ 
-            backgroundColor: '#fffbe6', 
-            border: '1px solid #ffe58f', 
-            padding: '30px', 
-            marginBottom: '30px',
-            borderRadius: '4px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-          }}>
-            <h3 style={{ color: '#856404', margin: '0 0 15px 0', fontSize: '1.5rem' }}>ATENÇÃO !!!</h3>
-            <p style={{ fontSize: '1.1rem', margin: 0, lineHeight: '1.5' }}>
+        <div className="acidente-data-wrapper">
+          <div className="acidente-warning-box">
+            <h3 className="acidente-warning-title">ATENÇÃO !!!</h3>
+            <p className="acidente-warning-text">
               Após clicar no botão <strong>"GRAVAR"</strong> não será mais possível alterar o acidente.
             </p>
           </div>
 
-          <div className="form-actions" style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="acidente-form-actions">
             <button 
               type="button" 
               onClick={handleVoltar} 
-              className="btn-secondary" 
-              style={{ 
-                padding: '10px 25px', 
-                cursor: 'pointer',
-                backgroundColor: '#6c757d',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px'
-              }}
+              className="btn-voltar" 
               disabled={loading}
             >
               VOLTAR
@@ -217,15 +183,7 @@ export const AcidenteGravar: React.FC = () => {
             <button 
               type="button" 
               onClick={handleVisualizar} 
-              className="btn-info" 
-              style={{ 
-                padding: '10px 25px', 
-                cursor: 'pointer', 
-                backgroundColor: '#17a2b8', 
-                color: 'white', 
-                border: 'none', 
-                borderRadius: '4px' 
-              }}
+              className="btn-visualizar" 
               disabled={loading}
             >
               VISUALIZAR ACIDENTE
@@ -233,16 +191,7 @@ export const AcidenteGravar: React.FC = () => {
             <button 
               type="button" 
               onClick={handleGravar} 
-              className="btn-primary" 
-              style={{ 
-                padding: '10px 25px', 
-                cursor: 'pointer', 
-                fontWeight: 'bold',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px'
-              }}
+              className="btn-gravar" 
               disabled={loading}
             >
               {loading ? 'GRAVANDO...' : 'GRAVAR'}
@@ -250,25 +199,16 @@ export const AcidenteGravar: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+        <div className="acidente-empty-state">
           {!success && (
-            <p style={{ marginBottom: '20px', color: '#666' }}>
+            <p className="acidente-empty-text">
               Nenhum dado de acidente encontrado para gravação.
             </p>
           )}
           <button 
             type="button" 
             onClick={handleNovo} 
-            className="btn-primary" 
-            style={{ 
-              padding: '12px 30px', 
-              cursor: 'pointer',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
+            className="btn-novo-acidente"
           >
             {success ? 'CADASTRAR OUTRO ACIDENTE' : 'CADASTRAR NOVO ACIDENTE'}
           </button>

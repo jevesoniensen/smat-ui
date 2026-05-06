@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fiscalizacaoService as FiscalizacaoService } from '../services/FiscalizacaoService';
 import { Fiscalizacao } from '../../../types/models';
+import '../css/fiscalizacao.css';
 
 const FiscalizacoesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -107,7 +108,7 @@ const FiscalizacoesPage: React.FC = () => {
         </thead>
         <tbody>
           {fiscalizacoes.map((f) => (
-            <tr key={f.id} onClick={() => handleSelect(f.id)} style={{ cursor: 'pointer' }}>
+            <tr key={f.id} onClick={() => handleSelect(f.id)} className="clickable-row">
               <td>{f.id}</td>
               <td>{f.titulo}</td>
               <td>{f.empregador?.razaoSocial}</td>

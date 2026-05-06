@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { MenuItem } from '../../types/models';
+import { MenuItem } from '../../../types/models';
 
 interface MenuProps {
   items: MenuItem[];
@@ -62,3 +62,5 @@ export const Menu: React.FC<MenuProps> = ({ items, onItemClick }) => {
     </nav>
   );
 };
+
+export default Menu;

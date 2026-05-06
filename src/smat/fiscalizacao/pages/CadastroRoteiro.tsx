@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fiscalizacaoService as FiscalizacaoService } from '../services/FiscalizacaoService';
 import { ParametrosService } from '../../index';
 import { RamoAtividade, PontoFiscalizacao, ItemFiscalizacao } from '../../../types/models';
+import '../css/fiscalizacao.css';
 
 const CadastroRoteiroPage: React.FC = () => {
   const navigate = useNavigate();
@@ -173,7 +174,7 @@ const CadastroRoteiroPage: React.FC = () => {
       {/* Filters */}
       <div className="form-group">
         <label>Ramo de atividade</label>
-        <select value={selectedRamoSuperior} onChange={handleRamoSuperiorChange}>
+        <select value={selectedRamoSuperior} onChange={handleRamoSuperiorChange} className="form-control">
             <option value="">- nenhum -</option>
             {ramoSuperiores.map(r => <option key={r.id} value={r.id}>{r.nome}</option>)}
         </select>
@@ -181,7 +182,7 @@ const CadastroRoteiroPage: React.FC = () => {
 
       <div className="form-group">
         <label>Área de atuação</label>
-        <select value={selectedRamoAtividade} onChange={handleRamoAtividadeChange}>
+        <select value={selectedRamoAtividade} onChange={handleRamoAtividadeChange} className="form-control">
             <option value="">- nenhum -</option>
             {ramosAtividade.map(r => <option key={r.id} value={r.id}>{r.nome}</option>)}
         </select>
@@ -189,7 +190,7 @@ const CadastroRoteiroPage: React.FC = () => {
 
       <div className="form-group">
         <label>Ponto de fiscalização</label>
-        <select value={selectedPonto} onChange={handlePontoChange}>
+        <select value={selectedPonto} onChange={handlePontoChange} className="form-control">
             <option value="">- nenhum -</option>
             {pontosFiscalizacao.map(p => <option key={p.id} value={p.id}>{p.descricao}</option>)}
         </select>
@@ -203,7 +204,7 @@ const CadastroRoteiroPage: React.FC = () => {
                 <tbody>
                     {availableItems.map(item => (
                         <tr key={item.id}>
-                            <td style={{width: '50px'}}>
+                            <td className="w-50px">
                                 <input
                                     type="checkbox"
                                     checked={selectedItems.includes(item.id)}
@@ -215,11 +216,11 @@ const CadastroRoteiroPage: React.FC = () => {
                     ))}
                 </tbody>
             </table>
-            <button onClick={handleAdd} disabled={loading || selectedItems.length === 0} style={{marginTop: '10px'}}>ADICIONAR</button>
+            <button onClick={handleAdd} disabled={loading || selectedItems.length === 0} className="mt-10">ADICIONAR</button>
           </>
       )}
 
-      <div style={{marginTop: '20px'}}>
+      <div className="mt-20">
         <button onClick={handleReturn}>RETORNAR</button>
       </div>
     </div>

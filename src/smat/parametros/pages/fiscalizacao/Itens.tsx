@@ -85,13 +85,14 @@ const ItensFiscalizacaoPage: React.FC = () => {
         {form.id && (
             <div className="form-group">
                 <label>ID</label>
-                <input type="text" value={form.id} disabled />
+                <input type="text" className="form-control" value={form.id} disabled />
             </div>
         )}
         <div className="form-group">
-          <label>Descrição <span style={{color:'red'}}>*</span></label>
+          <label>Descrição <span className="required">*</span></label>
           <input
             type="text"
+            className="form-control"
             value={form.descricao}
             onChange={e => setForm({...form, descricao: e.target.value})}
             required
@@ -103,6 +104,7 @@ const ItensFiscalizacaoPage: React.FC = () => {
           <label>Norma Relacionada</label>
           <input
             type="text"
+            className="form-control"
             value={form.normaRelacionada}
             onChange={e => setForm({...form, normaRelacionada: e.target.value})}
             maxLength={100}
@@ -127,7 +129,7 @@ const ItensFiscalizacaoPage: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id} onClick={() => handleSelect(item)} style={{ cursor: 'pointer' }}>
+            <tr key={item.id} onClick={() => handleSelect(item)} className="clickable-row">
               <td>{item.descricao}</td>
               <td>{item.normaRelacionada}</td>
             </tr>

@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import { Usuario, Pagina, ObjAcidente, MenuItem } from '../types/models';
+import { Usuario, Pagina, ObjAcidente, MenuItem } from '../../../types/models';
 
 interface SessionData {
   usuario: Usuario | null;
