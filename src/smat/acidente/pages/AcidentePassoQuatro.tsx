@@ -12,7 +12,7 @@ import {
   Estado, 
   Fonte 
 } from '../../../types/models';
-import { maskDate } from '../../../utils/formatting';
+import { maskDate } from '../../common/formatting';
 
 const STORAGE_KEY = 'objAcidente';
 

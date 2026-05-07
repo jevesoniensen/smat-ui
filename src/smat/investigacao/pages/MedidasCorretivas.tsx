@@ -4,7 +4,7 @@ import { investigacaoService as InvestigacaoService } from '../services/Investig
 import { ParametrosService } from '../../index';
 import { MedidaCorretivaInvestigacao, TipoMedidaCorretiva } from '../../../types/models';
 import '../css/investigacao.css';
-import { removeNonDigits } from '../../../utils/FormValidation';
+import { removeNonDigits } from '../../common/formatting';
 
 const MedidasCorretivasInvestigacaoPage: React.FC = () => {
   const { investigacaoId } = useParams<{ investigacaoId: string }>();

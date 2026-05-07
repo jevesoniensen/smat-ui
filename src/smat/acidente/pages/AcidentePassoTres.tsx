@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { acidenteService } from '../services/AcidenteService';
 import '../css/acidente.css';
 import { Estado, Municipio } from '../../../types/models';
-import { formatCEP, maskPhone } from '../../../utils/formatting';
+import { formatCEP, maskPhone } from '../../common/formatting';
 
 const TESTEMUNHAS_STORAGE_KEY = 'vTestemunhas';
 

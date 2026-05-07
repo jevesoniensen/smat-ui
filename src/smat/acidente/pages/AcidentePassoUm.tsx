@@ -15,8 +15,8 @@ import {
   Estado,
   Municipio
 } from '../../../types/models';
-import { maskDate, formatCPF, formatCEP, maskPhone } from '../../../utils/formatting';
-import { isValidCPF } from '../../../utils/FormValidation';
+import { maskDate, formatCPF, formatCEP, maskPhone } from '../../common/formatting';
+import { isValidCPF } from '../../common/validation';
 
 const STORAGE_KEY = 'objAcidente';
 

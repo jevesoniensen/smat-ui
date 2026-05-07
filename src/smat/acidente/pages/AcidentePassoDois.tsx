@@ -14,7 +14,7 @@ import {
   LocalLesao, 
   AgenteCausador 
 } from '../../../types/models';
-import { maskDate } from '../../../utils/formatting';
+import { maskDate } from '../../common/formatting';
 
 const STORAGE_KEY = 'objAcidente';
 const LESOES_STORAGE_KEY = 'vLocalLesaoAcidente';
