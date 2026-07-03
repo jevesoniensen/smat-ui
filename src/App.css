@@ -6,7 +6,7 @@
 }
 
 .app-header {
-  background-image: url('../public/assets/images/index/backgrd_top.gif');
+  background-image: url('./assets/images/index/backgrd_top.gif');
   background-repeat: repeat-x;
   background-color: #f8f9fa; /* fallback */
   border-bottom: 2px solid #516B86;

@@ -1,0 +1,97 @@
+<div class="container mat-typography">
+  <h3>Cadastro de Depoimentos</h3>
+  
+  <div *ngIf="message()" class="alert mb-20">{{ message() }}</div>
+
+  <div *ngIf="!investigacaoId()" class="alert error">
+    <mat-icon>error</mat-icon> Contexto de investigação não encontrado.
+    <button mat-button (click)="handleReturn()">Voltar</button>
+  </div>
+
+  <div *ngIf="investigacaoId()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ selectedId() ? 'Editar' : 'Novo' }} Depoimento</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-10">
+        <form [formGroup]="depoimentoForm" (ngSubmit)="handleSave()" class="form-container">
+          
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Data e Hora (dd/mm/aaaa hh:mm)</mat-label>
+            <input matInput formControlName="dataHoraStr" placeholder="dd/mm/aaaa hh:mm" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Tipo de testemunha</mat-label>
+            <mat-select formControlName="tipoDepoimentoId" required>
+              <mat-option value="">-- Tipo de testemunha --</mat-option>
+              <mat-option *ngFor="let t of tiposDepoimento()" [value]="t.id">{{ t.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="flex-gap-10">
+            <mat-form-field appearance="fill" class="flex-1">
+              <mat-label>Nome</mat-label>
+              <input matInput [value]="nomePessoa()" readonly disabled>
+            </mat-form-field>
+            <button mat-stroked-button color="primary" type="button" (click)="handleSearchPerson()">
+              <mat-icon>search</mat-icon> PESQUISAR
+            </button>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Depoimento</mat-label>
+            <textarea matInput rows="5" formControlName="relato"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Agente Causador</mat-label>
+            <mat-select formControlName="agenteCausadorId">
+              <mat-option value="">-- Agente Causador --</mat-option>
+              <mat-option *ngFor="let a of agentesCausadores()" [value]="a.id">{{ a.descricao }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="handleReturn()">
+              <mat-icon>arrow_back</mat-icon> RETORNAR
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading() || depoimentoForm.invalid">
+              <mat-icon>save</mat-icon> GRAVAR
+            </button>
+            <button mat-button type="button" (click)="handleClear()" [disabled]="loading()">
+              <mat-icon>clear</mat-icon> LIMPAR
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="handleDelete()" [disabled]="loading() || !selectedId()">
+              <mat-icon>delete</mat-icon> EXCLUIR
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="section mt-30">
+      <h4>Depoimentos Registrados</h4>
+      <table mat-table [dataSource]="depoimentos()" class="mat-elevation-z1 w-100">
+        
+        <ng-container matColumnDef="data">
+          <th mat-header-cell *matHeaderCellDef> Data </th>
+          <td mat-cell *matCellDef="let d"> {{ d.dataDepoimento | date:'dd/MM/yyyy HH:mm' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let d"> {{ d.tipo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let d"> {{ d.testemunha?.nome }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelect(row)" class="clickable-row" [class.selected-row]="selectedId() === row.id"></tr>
+      </table>
+    </div>
+  </div>
+</div>

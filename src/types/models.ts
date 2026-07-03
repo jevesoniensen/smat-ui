@@ -68,11 +68,11 @@ export interface Depoimento {
   dataDepoimento: Date;
   relato: string;
   tipo: string; // PRESENCIAL, ESCRITO, VIDEO
-  tipoDepoimentoId?: string; // Added for Depoimentos.tsx
-  pessoaId?: string; // Added for Depoimentos.tsx
-  agenteCausadorId?: string; // Added for Depoimentos.tsx
+  tipoDepoimentoId?: string; // Added for Depoimentos.ts
+  pessoaId?: string; // Added for Depoimentos.ts
+  agenteCausadorId?: string; // Added for Depoimentos.ts
 }
-export interface TipoDepoimento { // Added for Depoimentos.tsx
+export interface TipoDepoimento { // Added for Depoimentos.ts
   id: string;
   nome: string;
 }
@@ -99,9 +99,9 @@ export interface MedidaCorretivaInvestigacao {
   responsavel: Usuario;
   dataPrevista: Date;
   status: string;
-  tipoId?: string; // Added for MedidasCorretivas.tsx
-  prazoDias?: number; // Added for MedidasCorretivas.tsx
-  observacao?: string; // Added for MedidasCorretivas.tsx
+  tipoId?: string; // Added for MedidasCorretivas.ts
+  prazoDias?: number; // Added for MedidasCorretivas.ts
+  observacao?: string; // Added for MedidasCorretivas.ts
 }
 // ============================================================================
 // INSPECTION (FISCALIZACAO) MODELS
@@ -131,8 +131,8 @@ export interface ItemFiscalizacao {
   id: string;
   descricao: string;
   normaRelacionada: string;
-  grauConformidadeId?: string; // Added for Tramite.tsx
-  grauConformidade?: GrauConformidade; // Added for Tramite.tsx
+  grauConformidadeId?: string; // Added for Tramite.ts
+  grauConformidade?: GrauConformidade; // Added for Tramite.ts
 }
 export interface MedidaCorretivaFiscalizacao {
   id: string;
@@ -150,18 +150,18 @@ export interface TramiteFiscalizacao {
   dataTramite: Date;
   valor?: number;
   status: string;
-  statusId?: string; // Added for Tramite.tsx
-  roteiroItems?: ItemFiscalizacao[]; // Added for Tramite.tsx
+  statusId?: string; // Added for Tramite.ts
+  roteiroItems?: ItemFiscalizacao[]; // Added for Tramite.ts
 }
-export interface TramiteStatus { // Added for Tramite.tsx
+export interface TramiteStatus { // Added for Tramite.ts
   id: string;
   nome: string;
 }
-export interface GrauConformidade { // Added for Tramite.tsx
+export interface GrauConformidade { // Added for Tramite.ts
   id: string;
   nome: string;
 }
-export interface TipoMedidaCorretiva { // Added for MedidasCorretivas.tsx
+export interface TipoMedidaCorretiva { // Added for MedidasCorretivas.ts
   id: string;
   descricao: string;
 }
@@ -187,8 +187,8 @@ export interface TelefoneEmpregador {
   empregador: Empregador;
   numero: string;
   tipo: string; // COMERCIAL, CELULAR
-  ddd: string; // Added for Telefones.tsx
-  descricao: string; // Added for Telefones.tsx
+  ddd: string; // Added for Telefones.ts
+  descricao: string; // Added for Telefones.ts
 }
 export interface TipoEmpregador {
   id: string;
@@ -322,7 +322,7 @@ export interface Usuario {
   grupos: UsuarioGrupo[];
   dataCadastro: Date;
   ultimoAcesso?: Date;
-  agenteSaudeId?: string; // Added for Usuarios.tsx
+  agenteSaudeId?: string; // Added for Usuarios.ts
 }
 export interface UsuarioGrupo {
   id: string;
@@ -362,6 +362,10 @@ export interface AuxCampo {
 // ============================================================================
 // API RESPONSE MODELS
 // ============================================================================
+export interface ResponseStatus {
+  status: string;
+  message: string;
+}
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

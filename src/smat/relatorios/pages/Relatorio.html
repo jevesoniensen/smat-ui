@@ -1,0 +1,69 @@
+<div class="container mat-typography">
+  <div *ngIf="!relatorio()" class="text-center mt-50">
+    <mat-card>
+      <mat-card-content>
+        <h4>Não há um relatório para ser gerado!</h4>
+        <button mat-button (click)="handleBack()">Voltar</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="relatorio()" class="report-container">
+    <div class="text-center mb-20">
+      <h3>{{ relatorio().titulo }}</h3>
+    </div>
+
+    <mat-card class="mb-20">
+      <mat-card-content>
+        <p><strong>Tipo do Relatório:</strong> {{ relatorio().campo1 }} {{ relatorio().campo2 ? 'X ' + relatorio().campo2 : '' }}</p>
+        <p><strong>Período:</strong> {{ relatorio().dataInicial }} à {{ relatorio().dataFinal }}</p>
+        <p><strong>Periodicidade:</strong> {{ relatorio().nomePeriodicidade }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngFor="let mes of relatorio().mesAno; let index = index" class="mb-30">
+      <table class="w-100">
+        <thead>
+          <tr>
+            <th [colSpan]="relatorio().colSpanPeriodo || 1" class="text-left">{{ mes }}</th>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <th *ngFor="let c1 of relatorio().nomeRegistrosCampo1" [colSpan]="relatorio().lengthCampo2 || 1" class="text-center">
+                {{ c1 }}
+            </th>
+          </tr>
+          <tr *ngIf="relatorio().campo2">
+            <th class="text-center">{{ relatorio().labelLocal }}</th>
+            <ng-container *ngFor="let c1 of relatorio().nomeRegistrosCampo1">
+                <th *ngFor="let c2 of relatorio().nomeRegistrosCampo2" class="text-center">{{ c2 }}</th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let local of relatorio().nomeLocal; let i = index">
+            <th>{{ local }}</th>
+            <td *ngFor="let qtd of relatorio().quantidade[i]" class="text-right">
+              {{ qtd !== null && qtd !== undefined ? qtd : 0 }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <mat-card *ngIf="relatorio().texto" class="mb-20">
+      <mat-card-content class="text-center">
+        {{ relatorio().texto }}
+      </mat-card-content>
+    </mat-card>
+
+    <div class="text-center mt-50 mb-50 no-print">
+      <button mat-raised-button color="primary" (click)="handlePrint()">
+        <mat-icon>print</mat-icon> IMPRIMIR
+      </button>
+      <button mat-button (click)="handleBack()" class="ml-10">
+        VOLTAR
+      </button>
+    </div>
+  </div>
+</div>

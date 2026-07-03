@@ -1,0 +1,154 @@
+<div class="container mat-typography">
+  <h2>Registro de Acidente - Passo 4: Atestado Médico e Fonte</h2>
+
+  <div *ngIf="errors().length > 0" class="alert alert-danger mb-20">
+    <strong>Verifique os seguintes campos:</strong>
+    <ul>
+      <li *ngFor="let err of errors()">{{ err }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="loading()" class="acidente-loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <form [formGroup]="acidenteForm" *ngIf="!loading()">
+    <mat-card class="section">
+      <mat-card-header>
+        <mat-card-title>Atestado Médico</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-10">
+        <div class="form-container">
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data do Atestado</mat-label>
+              <input matInput [matDatepicker]="pickerAtestado" formControlName="dataAtestado">
+              <mat-datepicker-toggle matSuffix [for]="pickerAtestado"></mat-datepicker-toggle>
+              <mat-datepicker #pickerAtestado></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Hora</mat-label>
+              <input matInput formControlName="horaAtestado" (input)="onMaskInput($event, 'horaAtestado')" maxLength="5" placeholder="00:00">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Local de Atendimento</mat-label>
+            <mat-select formControlName="localAtendimento">
+              <mat-option value="">- selecione -</mat-option>
+              <mat-option *ngFor="let l of locaisAtendimento()" [value]="l.id">{{ l.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Houve Internação</mat-label>
+              <mat-select formControlName="internacao" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option value="S">Sim</mat-option>
+                <mat-option value="N">Não</mat-option>
+                <mat-option value="X">Não Informado</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Houve Afastamento</mat-label>
+              <mat-select formControlName="afastamento" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option value="S">Sim</mat-option>
+                <mat-option value="N">Não</mat-option>
+                <mat-option value="X">Não Informado</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Duração do Tratamento (dias)</mat-label>
+            <input matInput formControlName="duracaoTratamento" maxLength="4">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Natureza da Lesão</mat-label>
+            <textarea matInput formControlName="descNaturezaLesao" rows="3"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Diagnóstico</mat-label>
+            <mat-select formControlName="diagnostico" required>
+              <mat-option value="">- selecione -</mat-option>
+              <mat-option *ngFor="let d of diagnosticos()" [value]="d.id">{{ d.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Descrição Diagnóstico</mat-label>
+            <textarea matInput formControlName="descricaoDiagnostico" rows="3"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Observações</mat-label>
+            <textarea matInput formControlName="observacoes" rows="3"></textarea>
+          </mat-form-field>
+
+          <div class="grid-form-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>CRM</mat-label>
+              <input matInput formControlName="crm" maxLength="10">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>UF CRM</mat-label>
+              <mat-select formControlName="ufCRM">
+                <mat-option value="">- UF -</mat-option>
+                <mat-option *ngFor="let st of estados()" [value]="st.id">{{ st.sigla }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Médico</mat-label>
+              <input matInput formControlName="medicoNome" maxLength="60">
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section">
+      <mat-card-header>
+        <mat-card-title>Fonte dos Dados do Acidente</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-10">
+        <div class="form-container">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Fonte</mat-label>
+            <mat-select formControlName="fonte" required>
+              <mat-option value="">- selecione -</mat-option>
+              <mat-option *ngFor="let f of fontes()" [value]="f.id">{{ f.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Número do Documento</mat-label>
+              <input matInput formControlName="numDocFonte" maxLength="25" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data de Emissão</mat-label>
+              <input matInput [matDatepicker]="pickerFonte" formControlName="dataEmissaoFonte" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerFonte"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFonte></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="acidente-form-footer mb-50">
+      <button mat-stroked-button type="button" (click)="handleVoltar()" class="w-150px mr-10">
+        <mat-icon>arrow_back</mat-icon> VOLTAR
+      </button>
+      <button mat-raised-button color="primary" type="button" (click)="handleAvancar()" class="w-150px">
+        AVANÇAR <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

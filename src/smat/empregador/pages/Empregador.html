@@ -1,0 +1,155 @@
+<div class="container mat-typography">
+  <h3>{{ empregadorId() ? 'Editar Empregador Nº ' + empregadorId() : 'Cadastro de Empregador' }}</h3>
+
+  <div *ngIf="loading()" class="acidente-loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <div *ngIf="!loading()">
+    <mat-card class="section">
+      <mat-card-header>
+        <mat-card-title>Informações da Empresa</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="mt-10">
+        <form [formGroup]="empregadorForm" (ngSubmit)="handleSave()" class="form-container">
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Tipo de Empregador</mat-label>
+              <mat-select formControlName="tipoEmpregadorId" (selectionChange)="onTipoEmpregadorChange()" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let t of tiposEmpregador()" [value]="t.id">{{ t.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{ documentLabel() }}</mat-label>
+              <input matInput formControlName="documento">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Razão Social / Nome</mat-label>
+            <input matInput formControlName="razaoSocial" required>
+          </mat-form-field>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Ramo Superior</mat-label>
+              <mat-select formControlName="ramoSuperiorId" (selectionChange)="onRamoSuperiorChange()" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let r of ramosSuperiores()" [value]="r.id">{{ r.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Área de Atuação</mat-label>
+              <mat-select formControlName="ramoAtividadeId" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let r of filteredRamosAtividade()" [value]="r.id">{{ r.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="estadoId" (selectionChange)="onEstadoChange()" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let e of estados()" [value]="e.sigla">{{ e.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Município</mat-label>
+              <mat-select formControlName="municipioId" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let m of municipios()" [value]="m.id">{{ m.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Rua</mat-label>
+              <input matInput formControlName="rua" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Número</mat-label>
+              <input matInput formControlName="numero" required>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Bairro</mat-label>
+              <input matInput formControlName="bairro" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>CEP</mat-label>
+              <input matInput formControlName="cep" required>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Complemento</mat-label>
+            <input matInput formControlName="complemento">
+          </mat-form-field>
+
+          <div class="actions-container mt-10">
+            <button mat-button type="button" (click)="handleClear()" [disabled]="loading()">LIMPAR</button>
+            <button mat-raised-button color="warn" type="button" *ngIf="empregadorId()" (click)="handleDelete()" [disabled]="loading()">EXCLUIR</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="empregadorForm.invalid || loading()">
+              <mat-icon>{{ empregadorId() ? 'save' : 'add' }}</mat-icon>
+              {{ empregadorId() ? 'ATUALIZAR' : 'CADASTRAR' }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="section mt-20">
+      <h4>Empresas Registradas</h4>
+      <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="empregadores()" class="w-100">
+          <ng-container matColumnDef="razaoSocial">
+            <th mat-header-cell *matHeaderCellDef> Razão Social </th>
+            <td mat-cell *matCellDef="let e"> {{e.razaoSocial}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="documento">
+            <th mat-header-cell *matHeaderCellDef> Documento </th>
+            <td mat-cell *matCellDef="let e"> {{e.documento}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="municipio">
+            <th mat-header-cell *matHeaderCellDef> Município </th>
+            <td mat-cell *matCellDef="let e"> {{e.municipioId}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let e" class="text-right">
+              <button mat-icon-button color="accent" (click)="handleAddTelefone(e.id); $event.stopPropagation()" title="Gerenciar Telefones">
+                <mat-icon>phone</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="handleSelectEmpregador(row)" title="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelectEmpregador(row)" class="clickable-row"></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <button mat-button (click)="handleReturn()">RETORNAR</button>
+    </div>
+  </div>
+</div>

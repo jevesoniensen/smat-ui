@@ -1,0 +1,105 @@
+<div class="container mat-typography">
+  <h3>Testemunhas</h3>
+
+  <mat-card class="section">
+    <mat-card-header>
+      <mat-card-title>{{ selectedId() ? 'Editar' : 'Nova' }} Testemunha</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="mt-10">
+      <form [formGroup]="testemunhaForm" (ngSubmit)="handleSave()" class="form-container">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput formControlName="nome" placeholder="Nome da Testemunha">
+        </mat-form-field>
+
+        <div class="grid-form">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estadoId" (selectionChange)="onEstadoChange()">
+              <mat-option *ngFor="let e of estados()" [value]="e.id">{{ e.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Município</mat-label>
+            <mat-select formControlName="municipioId">
+              <mat-option *ngFor="let m of municipios()" [value]="m.id">{{ m.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid-form">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Rua</mat-label>
+            <input matInput formControlName="rua">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Bairro</mat-label>
+            <input matInput formControlName="bairro">
+          </mat-form-field>
+        </div>
+
+        <div class="grid-form">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="numero">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>CEP</mat-label>
+            <input matInput formControlName="cep">
+          </mat-form-field>
+        </div>
+
+        <div class="grid-form">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>DDD</mat-label>
+            <input matInput formControlName="ddd">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone">
+          </mat-form-field>
+        </div>
+
+        <div class="actions-container mt-10">
+          <button mat-button type="button" (click)="handleClear()" [disabled]="loading()">LIMPAR</button>
+          <button mat-raised-button color="warn" type="button" *ngIf="selectedId()" (click)="handleDelete()" [disabled]="loading()">EXCLUIR</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="testemunhaForm.invalid || loading()">
+            {{ selectedId() ? 'ATUALIZAR' : 'CADASTRAR' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="section">
+    <h4>Testemunhas Registradas</h4>
+    <table mat-table [dataSource]="testemunhas()" class="mat-elevation-z1 w-100">
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let t"> {{t.nome}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="municipio">
+        <th mat-header-cell *matHeaderCellDef> Município </th>
+        <td mat-cell *matCellDef="let t"> {{t.municipioId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="telefone">
+        <th mat-header-cell *matHeaderCellDef> Telefone </th>
+        <td mat-cell *matCellDef="let t"> {{t.ddd}} {{t.telefone}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelect(row)" class="clickable-row"></tr>
+    </table>
+  </div>
+
+  <div class="mt-20">
+    <button mat-button (click)="handleReturn()">RETORNAR</button>
+  </div>
+</div>

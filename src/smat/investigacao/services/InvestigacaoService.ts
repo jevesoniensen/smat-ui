@@ -4,50 +4,55 @@
  * 
  * Handles investigation and deposition management
  */
-import { apiService } from '../../api';
+import { ApiService } from '../../api';
 import * as Models from '../../../types/models';
+import { Injectable, inject } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class InvestigacaoService {
+  private apiService = inject(ApiService);
   private readonly BASE_URL = '/api/investigacoes';
 
   async createInvestigacao(data: Partial<Models.Investigacao>): Promise<Models.Investigacao> {
     try {
-      return await apiService.post<Models.Investigacao>(`${this.BASE_URL}`, data);
+      return await this.apiService.post<Models.Investigacao>(`${this.BASE_URL}`, data);
     } catch (error) {
       throw new Error(`Failed to create investigation: ${error}`);
     }
   }
   async updateInvestigacao(id: string | number, data: Partial<Models.Investigacao>): Promise<Models.Investigacao> {
     try {
-      return await apiService.put<Models.Investigacao>(`${this.BASE_URL}/${id}`, data);
+      return await this.apiService.put<Models.Investigacao>(`${this.BASE_URL}/${id}`, data);
     } catch (error) {
       throw new Error(`Failed to update investigation: ${error}`);
     }
   }
   async getInvestigacao(id: string | number): Promise<Models.Investigacao> {
     try {
-      return await apiService.get<Models.Investigacao>(`${this.BASE_URL}/${id}`);
+      return await this.apiService.get<Models.Investigacao>(`${this.BASE_URL}/${id}`);
     } catch (error) {
       throw new Error(`Failed to get investigation: ${error}`);
     }
   }
   async listInvestigacoes(): Promise<Models.Investigacao[]> {
     try {
-      return await apiService.get<Models.Investigacao[]>(`${this.BASE_URL}`);
+      return await this.apiService.get<Models.Investigacao[]>(`${this.BASE_URL}`);
     } catch (error) {
       throw new Error(`Failed to list investigations: ${error}`);
     }
   }
   async deleteInvestigacao(id: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/${id}`);
+      await this.apiService.delete(`${this.BASE_URL}/${id}`);
     } catch (error) {
       throw new Error(`Failed to delete investigation: ${error}`);
     }
   }
   async finalizeInvestigacao(id: string | number): Promise<Models.Investigacao> {
     try {
-      return await apiService.post<Models.Investigacao>(`${this.BASE_URL}/${id}/finalize`, {});
+      return await this.apiService.post<Models.Investigacao>(`${this.BASE_URL}/${id}/finalize`, {});
     } catch (error) {
       throw new Error(`Failed to finalize investigation: ${error}`);
     }
@@ -56,7 +61,7 @@ export class InvestigacaoService {
   // Depoimentos
   async addDepoimento(investigacaoId: string | number, depoimento: Partial<Models.Depoimento>): Promise<Models.Depoimento> {
     try {
-      return await apiService.post<Models.Depoimento>(
+      return await this.apiService.post<Models.Depoimento>(
         `${this.BASE_URL}/${investigacaoId}/depoimentos`,
         depoimento
       );
@@ -66,7 +71,7 @@ export class InvestigacaoService {
   }
   async updateDepoimento(investigacaoId: string | number, depoimentoId: string | number, depoimento: Partial<Models.Depoimento>): Promise<Models.Depoimento> {
     try {
-      return await apiService.put<Models.Depoimento>(
+      return await this.apiService.put<Models.Depoimento>(
         `${this.BASE_URL}/${investigacaoId}/depoimentos/${depoimentoId}`,
         depoimento
       );
@@ -76,14 +81,14 @@ export class InvestigacaoService {
   }
   async deleteDepoimento(investigacaoId: string | number, depoimentoId: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/${investigacaoId}/depoimentos/${depoimentoId}`);
+      await this.apiService.delete(`${this.BASE_URL}/${investigacaoId}/depoimentos/${depoimentoId}`);
     } catch (error) {
       throw new Error(`Failed to delete deposition: ${error}`);
     }
   }
   async listDepoimentos(investigacaoId: string | number): Promise<Models.Depoimento[]> {
     try {
-      return await apiService.get<Models.Depoimento[]>(
+      return await this.apiService.get<Models.Depoimento[]>(
         `${this.BASE_URL}/${investigacaoId}/depoimentos`
       );
     } catch (error) {
@@ -98,7 +103,7 @@ export class InvestigacaoService {
   // Medidas Corretivas
   async addMedidaCorretiva(investigacaoId: string | number, medida: Partial<Models.MedidaCorretivaInvestigacao>): Promise<Models.MedidaCorretivaInvestigacao> {
     try {
-      return await apiService.post<Models.MedidaCorretivaInvestigacao>(
+      return await this.apiService.post<Models.MedidaCorretivaInvestigacao>(
         `${this.BASE_URL}/${investigacaoId}/medidas`,
         medida
       );
@@ -108,7 +113,7 @@ export class InvestigacaoService {
   }
   async updateMedidaCorretiva(investigacaoId: string | number, medidaId: string | number, medida: Partial<Models.MedidaCorretivaInvestigacao>): Promise<Models.MedidaCorretivaInvestigacao> {
     try {
-      return await apiService.put<Models.MedidaCorretivaInvestigacao>(
+      return await this.apiService.put<Models.MedidaCorretivaInvestigacao>(
         `${this.BASE_URL}/${investigacaoId}/medidas/${medidaId}`,
         medida
       );
@@ -118,14 +123,14 @@ export class InvestigacaoService {
   }
   async deleteMedidaCorretiva(investigacaoId: string | number, medidaId: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/${investigacaoId}/medidas/${medidaId}`);
+      await this.apiService.delete(`${this.BASE_URL}/${investigacaoId}/medidas/${medidaId}`);
     } catch (error) {
       throw new Error(`Failed to delete corrective measure: ${error}`);
     }
   }
   async getMedidasCorretivas(investigacaoId: string | number): Promise<Models.MedidaCorretivaInvestigacao[]> {
     try {
-      return await apiService.get<Models.MedidaCorretivaInvestigacao[]>(
+      return await this.apiService.get<Models.MedidaCorretivaInvestigacao[]>(
         `${this.BASE_URL}/${investigacaoId}/medidas`
       );
     } catch (error) {
@@ -141,6 +146,3 @@ export class InvestigacaoService {
     return this.addMedidaCorretiva(investigacaoId, medida);
   }
 }
-
-export const investigacaoService = new InvestigacaoService();
-export default investigacaoService;

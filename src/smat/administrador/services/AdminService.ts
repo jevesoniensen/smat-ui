@@ -4,44 +4,49 @@
  * 
  * Handles user and group administration
  */
-import { apiService } from '../../api';
+import { ApiService } from '../../api';
 import * as Models from '../../../types/models';
+import { Injectable, inject } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class AdminService {
+  private apiService = inject(ApiService);
   private readonly BASE_URL = '/api/admin';
 
   // Usuarios
   async createUsuario(data: Partial<Models.Usuario>): Promise<Models.Usuario> {
     try {
-      return await apiService.post<Models.Usuario>(`${this.BASE_URL}/usuarios`, data);
+      return await this.apiService.post<Models.Usuario>(`${this.BASE_URL}/usuarios`, data);
     } catch (error) {
       throw new Error(`Failed to create user: ${error}`);
     }
   }
   async updateUsuario(id: string | number, data: Partial<Models.Usuario>): Promise<Models.Usuario> {
     try {
-      return await apiService.put<Models.Usuario>(`${this.BASE_URL}/usuarios/${id}`, data);
+      return await this.apiService.put<Models.Usuario>(`${this.BASE_URL}/usuarios/${id}`, data);
     } catch (error) {
       throw new Error(`Failed to update user: ${error}`);
     }
   }
   async getUsuario(id: string | number): Promise<Models.Usuario> {
     try {
-      return await apiService.get<Models.Usuario>(`${this.BASE_URL}/usuarios/${id}`);
+      return await this.apiService.get<Models.Usuario>(`${this.BASE_URL}/usuarios/${id}`);
     } catch (error) {
       throw new Error(`Failed to get user: ${error}`);
     }
   }
   async listUsuarios(): Promise<Models.Usuario[]> {
     try {
-      return await apiService.get<Models.Usuario[]>(`${this.BASE_URL}/usuarios`);
+      return await this.apiService.get<Models.Usuario[]>(`${this.BASE_URL}/usuarios`);
     } catch (error) {
       throw new Error(`Failed to list users: ${error}`);
     }
   }
   async deleteUsuario(id: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/usuarios/${id}`);
+      await this.apiService.delete(`${this.BASE_URL}/usuarios/${id}`);
     } catch (error) {
       throw new Error(`Failed to delete user: ${error}`);
     }
@@ -50,35 +55,35 @@ export class AdminService {
   // Grupos
   async createGrupo(data: Partial<Models.Grupo>): Promise<Models.Grupo> {
     try {
-      return await apiService.post<Models.Grupo>(`${this.BASE_URL}/grupos`, data);
+      return await this.apiService.post<Models.Grupo>(`${this.BASE_URL}/grupos`, data);
     } catch (error) {
       throw new Error(`Failed to create group: ${error}`);
     }
   }
   async updateGrupo(id: string | number, data: Partial<Models.Grupo>): Promise<Models.Grupo> {
     try {
-      return await apiService.put<Models.Grupo>(`${this.BASE_URL}/grupos/${id}`, data);
+      return await this.apiService.put<Models.Grupo>(`${this.BASE_URL}/grupos/${id}`, data);
     } catch (error) {
       throw new Error(`Failed to update group: ${error}`);
     }
   }
   async getGrupo(id: string | number): Promise<Models.Grupo> {
     try {
-      return await apiService.get<Models.Grupo>(`${this.BASE_URL}/grupos/${id}`);
+      return await this.apiService.get<Models.Grupo>(`${this.BASE_URL}/grupos/${id}`);
     } catch (error) {
       throw new Error(`Failed to get group: ${error}`);
     }
   }
   async listGrupos(): Promise<Models.Grupo[]> {
     try {
-      return await apiService.get<Models.Grupo[]>(`${this.BASE_URL}/grupos`);
+      return await this.apiService.get<Models.Grupo[]>(`${this.BASE_URL}/grupos`);
     } catch (error) {
       throw new Error(`Failed to list groups: ${error}`);
     }
   }
   async deleteGrupo(id: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/grupos/${id}`);
+      await this.apiService.delete(`${this.BASE_URL}/grupos/${id}`);
     } catch (error) {
       throw new Error(`Failed to delete group: ${error}`);
     }
@@ -87,7 +92,7 @@ export class AdminService {
   // Usuario-Grupo Relationships
   async addToGroup(usuarioId: string | number, grupoId: string | number): Promise<Models.UsuarioGrupo> {
     try {
-      return await apiService.post<Models.UsuarioGrupo>(
+      return await this.apiService.post<Models.UsuarioGrupo>(
         `${this.BASE_URL}/usuario-grupo`,
         { usuarioId, grupoId }
       );
@@ -102,7 +107,7 @@ export class AdminService {
 
   async removeFromGroup(usuarioId: string | number, grupoId: string | number): Promise<void> {
     try {
-      await apiService.delete(
+      await this.apiService.delete(
         `${this.BASE_URL}/usuario-grupo/${usuarioId}/${grupoId}`
       );
     } catch (error) {
@@ -116,7 +121,7 @@ export class AdminService {
 
   async getUserGroups(usuarioId: string | number): Promise<Models.Grupo[]> {
     try {
-      return await apiService.get<Models.Grupo[]>(`${this.BASE_URL}/usuarios/${usuarioId}/grupos`);
+      return await this.apiService.get<Models.Grupo[]>(`${this.BASE_URL}/usuarios/${usuarioId}/grupos`);
     } catch (error) {
       throw new Error(`Failed to get user groups: ${error}`);
     }
@@ -124,14 +129,9 @@ export class AdminService {
 
   async getAllUsuarioGrupos(): Promise<Models.UsuarioGrupo[]> {
     try {
-      return await apiService.get<Models.UsuarioGrupo[]>(`${this.BASE_URL}/usuario-grupos`);
+      return await this.apiService.get<Models.UsuarioGrupo[]>(`${this.BASE_URL}/usuario-grupos`);
     } catch (error) {
       throw new Error(`Failed to get all user-group assignments: ${error}`);
     }
   }
 }
-
-export const adminService = new AdminService();
-export const UsuarioService = adminService;
-export const GrupoService = adminService;
-export default adminService;

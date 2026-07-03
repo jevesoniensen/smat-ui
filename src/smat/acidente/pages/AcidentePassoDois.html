@@ -1,0 +1,225 @@
+<div class="container mat-typography">
+  <h2>Registro de Acidente - Passo 2</h2>
+
+  <div *ngIf="errors().length > 0" class="alert alert-danger mb-20">
+    <strong>Verifique os seguintes campos:</strong>
+    <ul>
+      <li *ngFor="let err of errors()">{{ err }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="loading()" class="acidente-loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <form [formGroup]="acidenteForm" *ngIf="!loading()">
+    <mat-card class="section">
+      <mat-card-header>
+        <mat-card-title>Acidente ou Doença</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-10">
+        <div class="form-container">
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Horas Trabalhadas</mat-label>
+              <input matInput formControlName="horasTrabalhadas" maxLength="10">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data do Acidente</mat-label>
+              <input matInput [matDatepicker]="pickerAcidente" formControlName="dataAcidente" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerAcidente"></mat-datepicker-toggle>
+              <mat-datepicker #pickerAcidente></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Hora</mat-label>
+              <input matInput formControlName="hora" (input)="onMaskInput($event, 'hora')" maxLength="5" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Tipo do Acidente</mat-label>
+              <mat-select formControlName="tipoAcidente" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let t of tiposAcidente()" [value]="t.id">{{ t.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Local do Acidente</mat-label>
+              <mat-select formControlName="tipoLocalAcidente" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let l of tiposLocal()" [value]="l.id">{{ l.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data do Último Dia Trabalhado</mat-label>
+              <input matInput [matDatepicker]="pickerUltimoDia" formControlName="dataUltimodiaTrab">
+              <mat-datepicker-toggle matSuffix [for]="pickerUltimoDia"></mat-datepicker-toggle>
+              <mat-datepicker #pickerUltimoDia></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Distrito de Saúde</mat-label>
+              <input matInput formControlName="distritoSaude" maxLength="20">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Especificação do Local do Acidente</mat-label>
+            <input matInput formControlName="descricaoLocal" maxLength="60">
+          </mat-form-field>
+
+          <div class="empregador-selection p-15 mat-elevation-z1 border-radius-4 mb-20">
+            <p *ngIf="acidenteForm.get('razaoSocialEmpresaterceira')?.value">
+              <strong>Empresa Terceira:</strong> {{ acidenteForm.get('razaoSocialEmpresaterceira')?.value }} ({{ acidenteForm.get('documentoEmpresaTerceira')?.value }})
+            </p>
+            <p *ngIf="!acidenteForm.get('razaoSocialEmpresaterceira')?.value" class="text-warn">Nenhuma empresa terceira selecionada.</p>
+            <button mat-stroked-button color="accent" type="button" (click)="handlePesquisarEmpresa()">
+              <mat-icon>search</mat-icon> {{ acidenteForm.get('razaoSocialEmpresaterceira')?.value ? 'ALTERAR' : 'SELECIONAR' }} EMPRESA TERCEIRA
+            </button>
+          </div>
+
+          <div class="grid-form">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Estado (Acidente)</mat-label>
+              <mat-select formControlName="estadoAcidente" (selectionChange)="onEstadoChange()" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let st of estados()" [value]="st.sigla">{{ st.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Município (Acidente)</mat-label>
+              <mat-select formControlName="municipioAcidente" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let m of municipios()" [value]="m.id">{{ m.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="section mb-20 p-15 mat-elevation-z1 border-radius-4">
+            <h4 class="mb-10">Local da Lesão</h4>
+            <div class="grid-form align-items-center">
+              <mat-form-field appearance="fill" class="w-100 mb-0">
+                <mat-label>Parte do Corpo</mat-label>
+                <mat-select formControlName="localLesaoPai" (selectionChange)="onLocalLesaoPaiChange()">
+                  <mat-option value="">- selecione -</mat-option>
+                  <mat-option *ngFor="let lp of locaisLesaoPai()" [value]="lp.id">{{ lp.nome }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="w-100 mb-0">
+                <mat-label>Lesão Específica</mat-label>
+                <mat-select formControlName="localLesao">
+                  <mat-option value="">- selecione -</mat-option>
+                  <mat-option *ngFor="let l of locaisLesao()" [value]="l.id">{{ l.nome }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-raised-button color="accent" type="button" (click)="handleInserirLocalLesao()" class="mb-20">
+                <mat-icon>add</mat-icon> INSERIR LOCAL
+              </button>
+            </div>
+
+            <div *ngIf="vLocalLesaoAcidente().length > 0" class="mt-10">
+              <table mat-table [dataSource]="vLocalLesaoAcidente()" class="mat-elevation-z1 w-100">
+                <ng-container matColumnDef="nome">
+                  <th mat-header-cell *matHeaderCellDef> Local </th>
+                  <td mat-cell *matCellDef="let item"> {{item.nome}} </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let item; let idx = index" class="text-right">
+                    <button mat-icon-button color="warn" type="button" (click)="handleRemoverLocalLesao(idx)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsLesoes"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsLesoes;"></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid-form-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Agente Causador (Categoria)</mat-label>
+              <mat-select formControlName="agenteCausadorVo" (selectionChange)="onAgenteCausadorVoChange()">
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let av of agentesCausadoresVo()" [value]="av.id">{{ av.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Agente Causador (Tipo)</mat-label>
+              <mat-select formControlName="agenteCausadorPai" (selectionChange)="onAgenteCausadorPaiChange()">
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let ap of agentesCausadoresPai()" [value]="ap.id">{{ ap.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Agente Causador Específico</mat-label>
+              <mat-select formControlName="agenteCausador" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option *ngFor="let a of agentesCausadores()" [value]="a.id">{{ a.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Descrição da Situação Geradora</mat-label>
+            <input matInput formControlName="descricaoSituacaoGeradora" maxLength="60">
+          </mat-form-field>
+
+          <div class="grid-form-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Houve Registro Policial?</mat-label>
+              <mat-select formControlName="registroPolicial" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option value="S">Sim</mat-option>
+                <mat-option value="N">Não</mat-option>
+                <mat-option value="X">Não Informado</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Houve Óbito?</mat-label>
+              <mat-select formControlName="obito" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option value="S">Sim</mat-option>
+                <mat-option value="N">Não</mat-option>
+                <mat-option value="X">Não Informado</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Houve Amputação?</mat-label>
+              <mat-select formControlName="amputacao" required>
+                <mat-option value="">- selecione -</mat-option>
+                <mat-option value="S">Sim</mat-option>
+                <mat-option value="N">Não</mat-option>
+                <mat-option value="X">Não Informado</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="acidente-form-footer mb-50">
+      <button mat-stroked-button type="button" (click)="handleVoltar()" class="w-150px mr-10">
+        <mat-icon>arrow_back</mat-icon> VOLTAR
+      </button>
+      <button mat-raised-button color="primary" type="button" (click)="handleAvancar()" class="w-150px">
+        AVANÇAR <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

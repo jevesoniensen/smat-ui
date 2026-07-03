@@ -1,9 +1,6 @@
-/**
- * Base API Service
- * Handles HTTP communication with backend
- * Maps from various Struts Actions to REST endpoints
- */
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:9090';
+import { Injectable } from '@angular/core';
+
+const API_BASE = (window as any).process?.env?.SMAT_API_URL || 'http://localhost:9090';
 
 interface ApiError {
   status: number;
@@ -11,14 +8,14 @@ interface ApiError {
   data?: any;
 }
 
-class ApiService {
-  private baseUrl: string;
-  private token: string | null = null;
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+  private baseUrl = API_BASE;
+  private token: string | null = localStorage.getItem('authToken');
 
-  constructor(baseUrl: string = API_BASE) {
-    this.baseUrl = baseUrl;
-    this.token = localStorage.getItem('authToken');
-  }
+  constructor() {}
 
   /**
    * Set authentication token
@@ -48,19 +45,6 @@ class ApiService {
       headers['Authorization'] = `Bearer ${this.token}`;
     }
     return headers;
-  }
-
-  /**
-   * Handle API errors
-   */
-  private handleError(response: Response, data?: any): ApiError {
-    const error: ApiError = {
-      status: response.status,
-      message: `HTTP ${response.status}: ${response.statusText}`,
-      data,
-    };
-    console.error('API Error:', error);
-    return error;
   }
 
   /**
@@ -174,8 +158,16 @@ class ApiService {
       throw error;
     }
   }
+
+  private handleError(response: Response, data?: any): ApiError {
+    const error: ApiError = {
+      status: response.status,
+      message: `HTTP ${response.status}: ${response.statusText}`,
+      data,
+    };
+    console.error('API Error:', error);
+    return error;
+  }
 }
 
-export const apiService = new ApiService();
-export const apiClient = apiService;
 export type { ApiError };

@@ -1,0 +1,58 @@
+<div class="container mat-typography">
+  <h3>Fiscalizações Cadastradas</h3>
+
+  <mat-card *ngIf="selected()" class="section">
+    <mat-card-header>
+      <mat-card-title>Detalhes da Fiscalização Nº {{ selected()?.id }}</mat-card-title>
+      <mat-card-subtitle>{{ selected()?.titulo }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="mt-10">
+      <div class="details-grid">
+        <p><strong>Agente de Saúde:</strong> {{ selected()?.fiscal?.nome }}</p>
+        <p><strong>Empregador:</strong> {{ selected()?.empregador?.razaoSocial }}</p>
+        <p><strong>Data da Abertura:</strong> {{ selected()?.dataFiscalizacao | date:'dd/MM/yyyy' }}</p>
+        <p *ngIf="selected()?.dataFim"><strong>Data da Finalização:</strong> {{ selected()?.dataFim | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Observações Gerais:</strong> {{ selected()?.obsGerais }}</p>
+        <p><strong>Status:</strong> <span [class.status-aberto]="selected()?.status === 'ABERTO'">{{ selected()?.status }}</span></p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button color="primary" *ngIf="selected()?.status === 'ABERTO'" (click)="handleEdit()">
+        <mat-icon>edit</mat-icon> ATUALIZAR DADOS
+      </button>
+      <button mat-button color="accent" (click)="handleTramite()">
+        <mat-icon>list</mat-icon> TRÂMITE(S)
+      </button>
+      <button mat-raised-button color="warn" *ngIf="selected()?.status === 'ABERTO'" (click)="handleFinalize()" [disabled]="loading()">
+        <mat-icon>check_circle</mat-icon> FINALIZAR
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="section">
+    <table mat-table [dataSource]="fiscalizacoes()" class="mat-elevation-z1 w-100">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Nº </th>
+        <td mat-cell *matCellDef="let f"> {{f.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let f"> {{f.titulo}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="empregador">
+        <th mat-header-cell *matHeaderCellDef> Empregador </th>
+        <td mat-cell *matCellDef="let f"> {{f.empregador?.razaoSocial}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataFiscalizacao">
+        <th mat-header-cell *matHeaderCellDef> Data Abertura </th>
+        <td mat-cell *matCellDef="let f"> {{f.dataFiscalizacao | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelect(row.id)" class="clickable-row"></tr>
+    </table>
+  </div>
+</div>

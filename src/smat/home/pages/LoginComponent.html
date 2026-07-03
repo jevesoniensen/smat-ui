@@ -1,0 +1,16 @@
+<div class="login-page-wrapper">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <app-login-header></app-login-header>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-login-form
+        [isLoading]="isLoading()"
+        [error]="error()"
+        (login)="handleLogin($event)"
+      ></app-login-form>
+    </mat-card-content>
+  </mat-card>
+</div>

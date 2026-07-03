@@ -1,0 +1,47 @@
+<div class="container mat-typography">
+  <h3>Relatórios Salvos</h3>
+  
+  <div *ngIf="message()" class="alert mb-20">{{ message() }}</div>
+
+  <mat-card *ngIf="selectedReport()" class="details-card">
+    <mat-card-header>
+      <mat-card-title>Detalhes do Relatório</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-10">
+      <p><strong>Título:</strong> {{ selectedReport()?.nomeRelatorio }}</p>
+      <p><strong>Data de criação:</strong> {{ selectedReport()?.dataSalvamento | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Período:</strong> {{ (selectedReport()?.parametros?.dataInicio | date:'dd/MM/yyyy') || '-' }} à {{ (selectedReport()?.parametros?.dataFim | date:'dd/MM/yyyy') || '-' }}</p>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" (click)="handleGenerate()">
+          <mat-icon>assessment</mat-icon> GERAR
+        </button>
+        <button mat-raised-button color="warn" (click)="handleDelete()" [disabled]="loading()">
+          <mat-icon>delete</mat-icon> EXCLUIR
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div *ngIf="!selectedReport()" class="text-center mb-20">
+    <h4>Selecione um relatório salvo na lista abaixo</h4>
+  </div>
+
+  <div class="section mt-20">
+    <table mat-table [dataSource]="reports()" class="mat-elevation-z1 w-100">
+      
+      <ng-container matColumnDef="nomeRelatorio">
+        <th mat-header-cell *matHeaderCellDef> Relatório </th>
+        <td mat-cell *matCellDef="let rep"> {{ rep.nomeRelatorio }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataSalvamento">
+        <th mat-header-cell *matHeaderCellDef> Data de criação </th>
+        <td mat-cell *matCellDef="let rep"> Salvo em: {{ rep.dataSalvamento | date:'dd/MM/yyyy HH:mm' }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelect(row)" [class.selected-row]="selectedReport()?.id === row.id" class="clickable-row"></tr>
+    </table>
+  </div>
+</div>

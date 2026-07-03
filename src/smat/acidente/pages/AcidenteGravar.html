@@ -1,0 +1,52 @@
+<div class="container mat-typography mt-20">
+  <mat-card class="section">
+    <mat-card-header>
+      <mat-card-title>Gravar Acidente</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-10">
+      <div *ngIf="error()" class="alert alert-danger mb-20">
+        {{ error() }}
+      </div>
+
+      <div *ngIf="success()" class="alert alert-success mb-20">
+        <strong>Acidente gravado com sucesso!</strong>
+      </div>
+
+      <div *ngIf="hasData(); else emptyState" class="form-container">
+        <div class="p-20 mb-20 border-radius-4" style="background-color: #fff9c4; border-left: 5px solid #fbc02d;">
+          <h3 style="color: #f57f17; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+            <mat-icon>warning</mat-icon> ATENÇÃO !!!
+          </h3>
+          <p>
+            Após clicar no botão <strong>"GRAVAR"</strong> não será mais possível alterar o acidente.
+          </p>
+        </div>
+
+        <div class="acidente-form-actions flex-row flex-gap-10">
+          <button mat-stroked-button type="button" (click)="handleVoltar()" [disabled]="loading()">
+            <mat-icon>arrow_back</mat-icon> VOLTAR
+          </button>
+          <button mat-stroked-button type="button" (click)="handleVisualizar()" [disabled]="loading()">
+            <mat-icon>visibility</mat-icon> VISUALIZAR ACIDENTE
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="handleGravar()" [disabled]="loading()" class="min-w-120px">
+            <mat-spinner *ngIf="loading()" diameter="18" class="mr-8 inline-spinner"></mat-spinner>
+            {{ loading() ? 'GRAVANDO...' : 'GRAVAR' }}
+          </button>
+        </div>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="text-center mt-20">
+          <p *ngIf="!success()" class="mb-20">
+            Nenhum dado de acidente encontrado para gravação.
+          </p>
+          <button mat-raised-button color="primary" type="button" (click)="handleNovo()">
+            <mat-icon>{{ success() ? 'add' : 'play_arrow' }}</mat-icon>
+            {{ success() ? 'CADASTRAR OUTRO ACIDENTE' : 'CADASTRAR NOVO ACIDENTE' }}
+          </button>
+        </div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

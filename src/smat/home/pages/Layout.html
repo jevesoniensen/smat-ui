@@ -1,0 +1,29 @@
+<div class="main-container">
+  <mat-toolbar *ngIf="user()">
+    <button mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="toolbar-logo">
+      <img src="/assets/images/index/img_header.jpg" alt="SMAT Header" />
+    </span>
+    <span class="spacer"></span>
+    <span *ngIf="user()" class="user-info-text">Bem-vindo, {{ user()?.nome }}</span>
+    <button mat-button (click)="handleLogout()">Sair</button>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav [mode]="'side'" [opened]="user() ? true : false" *ngIf="user()">
+      <app-menu *ngIf="menu()" [items]="menu()!" (onItemClick)="closeMobileMenu()"></app-menu>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <main class="content-area">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <footer class="app-footer" *ngIf="user()">
+    <p>&copy; SMAT - Sistema de Monitoramento de Acidentes de Trabalho</p>
+  </footer>
+</div>

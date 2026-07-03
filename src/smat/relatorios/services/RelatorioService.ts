@@ -4,15 +4,20 @@
  * 
  * Handles report generation and management
  */
-import { apiService } from '../../api';
+import { ApiService } from '../../api';
 import * as Models from '../../../types/models';
+import { Injectable, inject } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class RelatorioService {
+  private apiService = inject(ApiService);
   private readonly BASE_URL = '/api/relatorios';
 
   async generateReport(parameters: any): Promise<any> {
     try {
-      return await apiService.post(`${this.BASE_URL}/generate`, parameters);
+      return await this.apiService.post(`${this.BASE_URL}/generate`, parameters);
     } catch (error) {
       throw new Error(`Failed to generate report: ${error}`);
     }
@@ -24,7 +29,7 @@ export class RelatorioService {
 
   async saveReport(data: Models.RelatorioSalvo): Promise<Models.RelatorioSalvo> {
     try {
-      return await apiService.post<Models.RelatorioSalvo>(`${this.BASE_URL}/save`, data);
+      return await this.apiService.post<Models.RelatorioSalvo>(`${this.BASE_URL}/save`, data);
     } catch (error) {
       throw new Error(`Failed to save report: ${error}`);
     }
@@ -36,7 +41,7 @@ export class RelatorioService {
 
   async getReportParameters(): Promise<any> {
     try {
-      return await apiService.get(`${this.BASE_URL}/parameters`);
+      return await this.apiService.get(`${this.BASE_URL}/parameters`);
     } catch (error) {
       throw new Error(`Failed to get report parameters: ${error}`);
     }
@@ -48,7 +53,7 @@ export class RelatorioService {
 
   async getSavedReports(): Promise<Models.RelatorioSalvo[]> {
     try {
-      return await apiService.get<Models.RelatorioSalvo[]>(`${this.BASE_URL}/salvos`);
+      return await this.apiService.get<Models.RelatorioSalvo[]>(`${this.BASE_URL}/salvos`);
     } catch (error) {
       throw new Error(`Failed to get saved reports: ${error}`);
     }
@@ -60,7 +65,7 @@ export class RelatorioService {
 
   async getSavedReport(id: string | number): Promise<Models.RelatorioSalvo> {
     try {
-      return await apiService.get<Models.RelatorioSalvo>(`${this.BASE_URL}/saved/${id}`);
+      return await this.apiService.get<Models.RelatorioSalvo>(`${this.BASE_URL}/saved/${id}`);
     } catch (error) {
       throw new Error(`Failed to get saved report: ${error}`);
     }
@@ -68,7 +73,7 @@ export class RelatorioService {
 
   async deleteSavedReport(id: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/saved/${id}`);
+      await this.apiService.delete(`${this.BASE_URL}/saved/${id}`);
     } catch (error) {
       throw new Error(`Failed to delete saved report: ${error}`);
     }
@@ -80,7 +85,7 @@ export class RelatorioService {
 
   async exportRelatorio(id: string | number, format: 'pdf' | 'excel'): Promise<Blob> {
     try {
-      return await apiService.get(`${this.BASE_URL}/${id}/export?format=${format}`);
+      return await this.apiService.get(`${this.BASE_URL}/${id}/export?format=${format}`);
     } catch (error) {
       throw new Error(`Failed to export report: ${error}`);
     }
@@ -89,7 +94,7 @@ export class RelatorioService {
   // Helpers for dropdowns and reference data (often used in reports)
   async getEstados(): Promise<Models.Estado[]> {
     try {
-      return await apiService.get<Models.Estado[]>('/api/parametros/estados');
+      return await this.apiService.get<Models.Estado[]>('/api/parametros/estados');
     } catch (error) {
       throw new Error(`Failed to get states: ${error}`);
     }
@@ -97,7 +102,7 @@ export class RelatorioService {
 
   async getRegionaisByEstado(estadoId: string | number): Promise<Models.Regional[]> {
     try {
-      return await apiService.get<Models.Regional[]>(`/api/parametros/regionais?estado=${estadoId}`);
+      return await this.apiService.get<Models.Regional[]>(`/api/parametros/regionais?estado=${estadoId}`);
     } catch (error) {
       throw new Error(`Failed to get regions: ${error}`);
     }
@@ -105,12 +110,9 @@ export class RelatorioService {
 
   async getMunicipiosByEstado(estadoId: string | number): Promise<Models.Municipio[]> {
     try {
-      return await apiService.get<Models.Municipio[]>(`/api/parametros/municipios?estadoId=${estadoId}`);
+      return await this.apiService.get<Models.Municipio[]>(`/api/parametros/municipios?estadoId=${estadoId}`);
     } catch (error) {
       throw new Error(`Failed to get municipalities: ${error}`);
     }
   }
 }
-
-export const relatorioService = new RelatorioService();
-export default relatorioService;

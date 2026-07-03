@@ -1,0 +1,89 @@
+<div class="container mat-typography">
+  <h3>Cadastro do Roteiro de Fiscalização</h3>
+
+  <div *ngIf="!fiscalizacaoId() || !tramiteId()" class="alert error">
+    <mat-icon>error</mat-icon>
+    Contexto de fiscalização/trâmite não encontrado.
+    <button mat-button (click)="handleReturn()">Voltar</button>
+  </div>
+
+  <div *ngIf="fiscalizacaoId() && tramiteId()">
+    <div *ngIf="existingItems().length > 0" class="section">
+      <h4>Roteiro do trâmite atual</h4>
+      <table mat-table [dataSource]="existingItems()" class="mat-elevation-z1 w-100">
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let item"> {{item.descricao}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let item" class="text-right">
+            <button mat-icon-button color="warn" (click)="handleRemove(item.id)" title="Remover item">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedExistingColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedExistingColumns;"></tr>
+      </table>
+    </div>
+
+    <div class="form-container">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Ramo de atividade</mat-label>
+        <mat-select [(ngModel)]="selectedRamoSuperior" (selectionChange)="onRamoSuperiorChange()">
+          <mat-option value="">- nenhum -</mat-option>
+          <mat-option *ngFor="let r of ramoSuperiores()" [value]="r.id">{{ r.nome }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Área de atuação</mat-label>
+        <mat-select [(ngModel)]="selectedRamoAtividade" (selectionChange)="onRamoAtividadeChange()">
+          <mat-option value="">- nenhum -</mat-option>
+          <mat-option *ngFor="let r of ramosAtividade()" [value]="r.id">{{ r.nome }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Ponto de fiscalização</mat-label>
+        <mat-select [(ngModel)]="selectedPonto" (selectionChange)="onPontoChange()">
+          <mat-option value="">- nenhum -</mat-option>
+          <mat-option *ngFor="let p of pontosFiscalizacao()" [value]="p.id">{{ p.descricao }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="availableItems().length > 0" class="section">
+      <h4>Itens de Fiscalização</h4>
+      <table mat-table [dataSource]="availableItems()" class="mat-elevation-z1 w-100">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let item">
+            <mat-checkbox [checked]="isSelected(item.id)" (change)="handleItemCheck(item.id)"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let item"> {{item.descricao}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedAvailableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedAvailableColumns;"></tr>
+      </table>
+
+      <div class="actions-container mt-10">
+        <button mat-raised-button color="primary" (click)="handleAdd()" [disabled]="loading() || selectedItems().length === 0">
+          ADICIONAR SELECIONADOS
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <button mat-stroked-button (click)="handleReturn()">RETORNAR</button>
+    </div>
+  </div>
+</div>

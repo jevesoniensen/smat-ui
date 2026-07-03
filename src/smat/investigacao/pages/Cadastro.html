@@ -1,0 +1,74 @@
+<div class="container mat-typography">
+  <h3>Cadastro de Investigação</h3>
+  
+  <div *ngIf="message()" class="alert alert-info mb-20">{{ message() }}</div>
+
+  <mat-card class="details-section">
+    <mat-card-header>
+      <mat-card-title>Dados da Investigação</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-10">
+      <p *ngIf="form().id"><strong>Investigação nº:</strong> {{ form().id }}</p>
+      <p *ngIf="form().dataInicio"><strong>Data de abertura:</strong> {{ form().dataInicio | date:'dd/MM/yyyy' }}</p>
+      <p *ngIf="form().dataFim"><strong>Data de finalização:</strong> {{ form().dataFim | date:'dd/MM/yyyy' }}</p>
+
+      <div *ngIf="acidente()">
+        <hr class="mb-10"/>
+        <p><strong>Acidente nº:</strong> {{ acidente()?.id }}</p>
+        <p><strong>Data:</strong> {{ acidente()?.dataAcidente | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Acidentado:</strong> {{ acidente()?.trabalhador?.nome }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="cadastroForm" (ngSubmit)="handleSave()" class="form-container">
+        
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Agente responsável</mat-label>
+          <mat-select formControlName="agenteSaudeId" required [disabled]="isFinalized()">
+            <mat-option value="">- Agente de saúde -</mat-option>
+            <mat-option *ngFor="let a of agentesSaude()" [value]="a.id">{{ a.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Motivo</mat-label>
+          <input matInput formControlName="motivo" maxLength="100" required [disabled]="isFinalized()">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Observações gerais</mat-label>
+          <textarea matInput rows="5" formControlName="obsGerais" [disabled]="isFinalized()"></textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="handleReturn()">
+            <mat-icon>arrow_back</mat-icon> RETORNAR
+          </button>
+          <button mat-stroked-button color="accent" type="button" (click)="handleViewAcidente()">
+            <mat-icon>visibility</mat-icon> ACIDENTE
+          </button>
+          <button mat-raised-button color="primary" type="submit" *ngIf="!isFinalized()" [disabled]="loading() || cadastroForm.invalid">
+            <mat-icon>save</mat-icon> GRAVAR
+          </button>
+        </div>
+
+        <div *ngIf="form().id" class="form-actions">
+          <button mat-raised-button color="accent" type="button" (click)="handleDetails()">
+            <mat-icon>list</mat-icon> DETALHES
+          </button>
+          <ng-container *ngIf="!isFinalized()">
+            <button mat-raised-button color="warn" type="button" (click)="handleDelete()" [disabled]="loading()">
+              <mat-icon>delete</mat-icon> EXCLUIR
+            </button>
+            <button mat-raised-button color="primary" type="button" (click)="handleFinalize()" [disabled]="loading()">
+              <mat-icon>check_circle</mat-icon> FINALIZAR
+            </button>
+          </ng-container>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

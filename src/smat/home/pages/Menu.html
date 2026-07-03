@@ -1,0 +1,31 @@
+<mat-nav-list class="main-menu">
+  <ng-container *ngFor="let item of items">
+    <ng-container *ngTemplateOutlet="menuItemTmpl; context: { item: item }"></ng-container>
+  </ng-container>
+</mat-nav-list>
+
+<ng-template #menuItemTmpl let-item="item">
+  <mat-expansion-panel *ngIf="item.children && item.children.length > 0; else linkTmpl" 
+                       [expanded]="openSubmenuId() === item.id"
+                       (opened)="toggleSubmenu(item.id)"
+                       (closed)="toggleSubmenu(item.id)"
+                       class="mat-elevation-z0">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ item.label }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <mat-nav-list class="submenu">
+      <ng-container *ngFor="let child of item.children">
+        <ng-container *ngTemplateOutlet="menuItemTmpl; context: { item: child }"></ng-container>
+      </ng-container>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <ng-template #linkTmpl>
+    <a mat-list-item [routerLink]="getSafePath(item.path)" routerLinkActive="active" (click)="onItemClick.emit()">
+      <span matListItemTitle>{{ item.label }}</span>
+    </a>
+  </ng-template>
+</ng-template>

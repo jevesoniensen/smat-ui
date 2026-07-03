@@ -1,0 +1,55 @@
+<div class="container mat-typography">
+  <h3>Pesquisar Empregador</h3>
+
+  <div *ngIf="loading()" class="acidente-loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <mat-card class="section" *ngIf="!loading()">
+    <mat-card-header>
+      <mat-card-title>Filtros de Pesquisa</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="mt-10">
+      <div class="form-container">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Razão Social / Nome</mat-label>
+          <input matInput [(ngModel)]="razaoSocial" placeholder="Parte do nome ou razão social">
+        </mat-form-field>
+
+        <div class="actions-container">
+          <button mat-button (click)="handleClear()" [disabled]="loading()">LIMPAR</button>
+          <button mat-raised-button color="primary" (click)="handleSearch()" [disabled]="loading()">
+            <mat-icon>search</mat-icon> PESQUISAR
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="section" *ngIf="results().length > 0">
+    <h4>Resultados</h4>
+    <table mat-table [dataSource]="results()" class="mat-elevation-z1 w-100">
+      <ng-container matColumnDef="razaoSocial">
+        <th mat-header-cell *matHeaderCellDef> Razão Social </th>
+        <td mat-cell *matCellDef="let e"> {{e.razaoSocial}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="documento">
+        <th mat-header-cell *matHeaderCellDef> Documento </th>
+        <td mat-cell *matCellDef="let e"> {{e.documento}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleSelect(row)" class="clickable-row"></tr>
+    </table>
+  </div>
+
+  <div class="mt-20">
+    <button mat-stroked-button color="accent" (click)="handleNew()" class="mr-10">
+        <mat-icon>add</mat-icon> NOVO EMPREGADOR
+    </button>
+    <button mat-button (click)="handleReturn()">RETORNAR</button>
+  </div>
+</div>

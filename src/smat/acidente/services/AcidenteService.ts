@@ -1,8 +1,7 @@
 /**
- * Acidente Service
- * Handles all accident registration and management operations
+ * Acidente Service - Complete accident management
  */
-import { apiService } from '../../api';
+import { ApiService } from '../../api';
 import { 
   Acidente, 
   LocalLesao,
@@ -19,19 +18,23 @@ import {
   AgenteCausador,
   LocalAtendimento,
   Diagnostico,
-  Fonte
+  Fonte,
+  ResponseStatus
 } from '../../../types/models';
+import { Injectable, inject } from '@angular/core';
 
-/**
- * Acidente Service - Complete accident management
- */
+@Injectable({
+  providedIn: 'root'
+})
 export class AcidenteService {
+  private apiService = inject(ApiService);
   private readonly BASE_URL = '/api/acidentes';
   private readonly BASE_URL_PARAMS = '/api/params';
+  private readonly URL_GRVAR_ACIDENTE = '/api/gravar/acidente';
 
-  async createAcidente(data: Partial<Acidente>): Promise<Acidente> {
+  async createAcidente(data: Partial<Acidente>): Promise<ResponseStatus> {
     try {
-      return await apiService.post<Acidente>(`${this.BASE_URL}`, data);
+      return await this.apiService.post<ResponseStatus>(`${this.URL_GRVAR_ACIDENTE}`, data);
     } catch (error) {
       throw new Error(`Failed to create accident: ${error}`);
     }
@@ -39,7 +42,7 @@ export class AcidenteService {
 
   async createAcidenteStepOne(data: Partial<Acidente>): Promise<Acidente> {
     try {
-      return await apiService.post<Acidente>(`${this.BASE_URL}/step-one`, data);
+      return await this.apiService.post<Acidente>(`${this.BASE_URL}/step-one`, data);
     } catch (error) {
       throw new Error(`Failed to create accident (step 1): ${error}`);
     }
@@ -47,7 +50,7 @@ export class AcidenteService {
 
   async updateAcidente(id: string | number, data: Partial<Acidente>): Promise<Acidente> {
     try {
-      return await apiService.put<Acidente>(`${this.BASE_URL}/${id}`, data);
+      return await this.apiService.put<Acidente>(`${this.BASE_URL}/${id}`, data);
     } catch (error) {
       throw new Error(`Failed to update accident: ${error}`);
     }
@@ -55,7 +58,7 @@ export class AcidenteService {
 
   async updateAcidenteStepTwo(acidenteId: string | number, data: Partial<Acidente>): Promise<Acidente> {
     try {
-      return await apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-two`, data);
+      return await this.apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-two`, data);
     } catch (error) {
       throw new Error(`Failed to update accident (step 2): ${error}`);
     }
@@ -63,7 +66,7 @@ export class AcidenteService {
 
   async updateAcidenteStepThree(acidenteId: string | number, data: Partial<Acidente>): Promise<Acidente> {
     try {
-      return await apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-three`, data);
+      return await this.apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-three`, data);
     } catch (error) {
       throw new Error(`Failed to update accident (step 3): ${error}`);
     }
@@ -71,7 +74,7 @@ export class AcidenteService {
 
   async updateAcidenteStepFour(acidenteId: string | number, data: Partial<Acidente>): Promise<Acidente> {
     try {
-      return await apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-four`, data);
+      return await this.apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/step-four`, data);
     } catch (error) {
       throw new Error(`Failed to update accident (step 4): ${error}`);
     }
@@ -79,7 +82,7 @@ export class AcidenteService {
 
   async saveAcidente(acidenteId: string | number): Promise<Acidente> {
     try {
-      return await apiService.post<Acidente>(`${this.BASE_URL}/${acidenteId}`, {});
+      return await this.apiService.post<Acidente>(`${this.BASE_URL}/${acidenteId}`, {});
     } catch (error) {
       throw new Error(`Failed to save accident: ${error}`);
     }
@@ -87,7 +90,7 @@ export class AcidenteService {
 
   async getAcidente(acidenteId: string | number): Promise<Acidente> {
     try {
-      return await apiService.get<Acidente>(`${this.BASE_URL}/${acidenteId}`);
+      return await this.apiService.get<Acidente>(`${this.BASE_URL}/${acidenteId}`);
     } catch (error) {
       throw new Error(`Failed to get accident: ${error}`);
     }
@@ -99,10 +102,10 @@ export class AcidenteService {
   async listAcidentes(pageOrFilters?: number | Record<string, any>, limit: number = 10): Promise<any> {
     try {
       if (typeof pageOrFilters === 'number') {
-        return await apiService.get<any>(`${this.BASE_URL}?page=${pageOrFilters}&limit=${limit}`);
+        return await this.apiService.get<any>(`${this.BASE_URL}?page=${pageOrFilters}&limit=${limit}`);
       } else {
         const query = pageOrFilters ? `?${new URLSearchParams(pageOrFilters)}` : '';
-        return await apiService.get<Acidente[]>(`${this.BASE_URL}${query}`);
+        return await this.apiService.get<Acidente[]>(`${this.BASE_URL}${query}`);
       }
     } catch (error) {
       throw new Error(`Failed to list accidents: ${error}`);
@@ -128,7 +131,7 @@ export class AcidenteService {
         });
         query = `?${params.toString()}`;
       }
-      return await apiService.get<Acidente[]>(`${this.BASE_URL}/search${query}`);
+      return await this.apiService.get<Acidente[]>(`${this.BASE_URL}/search${query}`);
     } catch (error) {
       throw new Error(`Failed to search accidents: ${error}`);
     }
@@ -136,7 +139,7 @@ export class AcidenteService {
 
   async deleteAcidente(acidenteId: string | number): Promise<void> {
     try {
-      await apiService.delete(`${this.BASE_URL}/${acidenteId}`);
+      await this.apiService.delete(`${this.BASE_URL}/${acidenteId}`);
     } catch (error) {
       throw new Error(`Failed to delete accident: ${error}`);
     }
@@ -144,7 +147,7 @@ export class AcidenteService {
 
   async getAcidenteTemplate(): Promise<Partial<Acidente>> {
     try {
-      return await apiService.get<Partial<Acidente>>(`${this.BASE_URL}/template`);
+      return await this.apiService.get<Partial<Acidente>>(`${this.BASE_URL}/template`);
     } catch (error) {
       throw new Error(`Failed to get accident template: ${error}`);
     }
@@ -155,7 +158,7 @@ export class AcidenteService {
     errors: string[];
   }> {
     try {
-      return await apiService.post<any>(`${this.BASE_URL}/validate`, data);
+      return await this.apiService.post<any>(`${this.BASE_URL}/validate`, data);
     } catch (error) {
       throw new Error(`Failed to validate accident: ${error}`);
     }
@@ -163,7 +166,7 @@ export class AcidenteService {
 
   async getStatusOptions(): Promise<Status[]> {
     try {
-      return await apiService.get<Status[]>(`${this.BASE_URL}/status-options`);
+      return await this.apiService.get<Status[]>(`${this.BASE_URL}/status-options`);
     } catch (error) {
       throw new Error(`Failed to get status options: ${error}`);
     }
@@ -171,7 +174,7 @@ export class AcidenteService {
 
   async updateAcidenteStatus(acidenteId: string | number, status: string): Promise<Acidente> {
     try {
-      return await apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/status`, { status });
+      return await this.apiService.put<Acidente>(`${this.BASE_URL}/${acidenteId}/status`, { status });
     } catch (error) {
       throw new Error(`Failed to update accident status: ${error}`);
     }
@@ -181,7 +184,7 @@ export class AcidenteService {
 
   async getAllEmitentes(): Promise<Emitente[]> {
     try {
-      return await apiService.get<Emitente[]>(`${this.BASE_URL_PARAMS}/emitentes`);
+      return await this.apiService.get<Emitente[]>(`${this.BASE_URL_PARAMS}/emitentes`);
     } catch (error) {
       throw new Error(`Failed to get emitters: ${error}`);
     }
@@ -189,7 +192,7 @@ export class AcidenteService {
 
   async getAllEstadosCivis(): Promise<EstadoCivil[]> {
     try {
-      return await apiService.get<EstadoCivil[]>(`${this.BASE_URL_PARAMS}/estadoscivis`);
+      return await this.apiService.get<EstadoCivil[]>(`${this.BASE_URL_PARAMS}/estadoscivis`);
     } catch (error) {
       throw new Error(`Failed to get marital statuses: ${error}`);
     }
@@ -197,7 +200,7 @@ export class AcidenteService {
 
   async getAllOcupacoes(): Promise<Ocupacao[]> {
     try {
-      return await apiService.get<Ocupacao[]>(`${this.BASE_URL_PARAMS}/ocupacoes`);
+      return await this.apiService.get<Ocupacao[]>(`${this.BASE_URL_PARAMS}/ocupacoes`);
     } catch (error) {
       throw new Error(`Failed to get occupations: ${error}`);
     }
@@ -205,7 +208,7 @@ export class AcidenteService {
 
   async getAllVinculosEmpregaticios(): Promise<VinculoEmpregaticio[]> {
     try {
-      return await apiService.get<VinculoEmpregaticio[]>(`${this.BASE_URL_PARAMS}/vinculosempregaticios`);
+      return await this.apiService.get<VinculoEmpregaticio[]>(`${this.BASE_URL_PARAMS}/vinculosempregaticios`);
     } catch (error) {
       throw new Error(`Failed to get employment types: ${error}`);
     }
@@ -213,7 +216,7 @@ export class AcidenteService {
 
   async getAllAreas(): Promise<Area[]> {
     try {
-      return await apiService.get<Area[]>(`${this.BASE_URL_PARAMS}/areas`);
+      return await this.apiService.get<Area[]>(`${this.BASE_URL_PARAMS}/areas`);
     } catch (error) {
       throw new Error(`Failed to get areas: ${error}`);
     }
@@ -221,7 +224,7 @@ export class AcidenteService {
 
   async getAllEstados(): Promise<Estado[]> {
     try {
-      return await apiService.get<Estado[]>(`${this.BASE_URL_PARAMS}/estados`);
+      return await this.apiService.get<Estado[]>(`${this.BASE_URL_PARAMS}/estados`);
     } catch (error) {
       throw new Error(`Failed to get states: ${error}`);
     }
@@ -229,7 +232,7 @@ export class AcidenteService {
 
   async getTiposAcidente(): Promise<TipoAcidente[]> {
     try {
-      return await apiService.get<TipoAcidente[]>(`${this.BASE_URL_PARAMS}/tiposacidente`);
+      return await this.apiService.get<TipoAcidente[]>(`${this.BASE_URL_PARAMS}/tiposacidente`);
     } catch (error) {
       throw new Error(`Failed to get accident types: ${error}`);
     }
@@ -237,7 +240,7 @@ export class AcidenteService {
 
   async getTiposLocalAcidente(): Promise<TipoLocalAcidente[]> {
     try {
-      return await apiService.get<TipoLocalAcidente[]>(`${this.BASE_URL_PARAMS}/tiposlocalacidente`);
+      return await this.apiService.get<TipoLocalAcidente[]>(`${this.BASE_URL_PARAMS}/tiposlocalacidente`);
     } catch (error) {
       throw new Error(`Failed to get accident location types: ${error}`);
     }
@@ -245,7 +248,7 @@ export class AcidenteService {
 
   async getMunicipios(estadoSigla: string): Promise<Municipio[]> {
     try {
-      return await apiService.get<Municipio[]>(`${this.BASE_URL_PARAMS}/search/municipios?sigla=${estadoSigla}`);
+      return await this.apiService.get<Municipio[]>(`${this.BASE_URL_PARAMS}/search/municipios?sigla=${estadoSigla}`);
     } catch (error) {
       throw new Error(`Failed to get municipalities: ${error}`);
     }
@@ -254,7 +257,7 @@ export class AcidenteService {
   async getLocaisLesaoPai(): Promise<LocalLesao[]> {
     try {
       let url = `${this.BASE_URL_PARAMS}/locaislesao`;
-      return await apiService.get<LocalLesao[]>(url);
+      return await this.apiService.get<LocalLesao[]>(url);
     } catch (error) {
       throw new Error(`Failed to get injury locations: ${error}`);
     }
@@ -263,7 +266,7 @@ export class AcidenteService {
   async getLocaisLesao(paiId?: string | number): Promise<LocalLesao[]> {
     try {
       let url = `${this.BASE_URL_PARAMS}/search/locaislesao?paiId=${paiId}`;
-      return await apiService.get<LocalLesao[]>(url);
+      return await this.apiService.get<LocalLesao[]>(url);
     } catch (error) {
       throw new Error(`Failed to get injury locations: ${error}`);
     }
@@ -272,7 +275,7 @@ export class AcidenteService {
   async getAgentesCausadoresVo(): Promise<AgenteCausador[]> {
     try {
       let url = `${this.BASE_URL_PARAMS}/agentescausadores`;
-      return await apiService.get<AgenteCausador[]>(url);
+      return await this.apiService.get<AgenteCausador[]>(url);
     } catch (error) {
       throw new Error(`Failed to get causing agents: ${error}`);
     }
@@ -281,7 +284,7 @@ export class AcidenteService {
   async getAgentesCausadores(paiId?: string | number): Promise<AgenteCausador[]> {
     try {
       let url = `${this.BASE_URL_PARAMS}/search/agentescausadores?paiId=${paiId}`;
-      return await apiService.get<AgenteCausador[]>(url);
+      return await this.apiService.get<AgenteCausador[]>(url);
     } catch (error) {
       throw new Error(`Failed to get causing agents: ${error}`);
     }
@@ -289,7 +292,7 @@ export class AcidenteService {
 
   async getAllLocaisAtendimento(): Promise<LocalAtendimento[]> {
     try {
-      return await apiService.get<LocalAtendimento[]>(`${this.BASE_URL_PARAMS}/locaisatendimento`);
+      return await this.apiService.get<LocalAtendimento[]>(`${this.BASE_URL_PARAMS}/locaisatendimento`);
     } catch (error) {
       throw new Error(`Failed to get care locations: ${error}`);
     }
@@ -297,7 +300,7 @@ export class AcidenteService {
 
   async getAllDiagnosticos(): Promise<Diagnostico[]> {
     try {
-      return await apiService.get<Diagnostico[]>(`${this.BASE_URL_PARAMS}/diagnosticos`);
+      return await this.apiService.get<Diagnostico[]>(`${this.BASE_URL_PARAMS}/diagnosticos`);
     } catch (error) {
       throw new Error(`Failed to get diagnostics: ${error}`);
     }
@@ -305,13 +308,10 @@ export class AcidenteService {
 
   async getAllFontes(): Promise<Fonte[]> {
     try {
-      return await apiService.get<Fonte[]>(`${this.BASE_URL_PARAMS}/fontes`);
+      return await this.apiService.get<Fonte[]>(`${this.BASE_URL_PARAMS}/fontes`);
     } catch (error) {
       throw new Error(`Failed to get sources: ${error}`);
     }
   }
 
 }
-
-export const acidenteService = new AcidenteService();
-export default acidenteService;

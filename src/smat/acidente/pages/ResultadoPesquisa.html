@@ -1,0 +1,42 @@
+<div class="container mat-typography">
+  <h3>Resultado da Pesquisa</h3>
+
+  <div class="section" *ngIf="results().length > 0">
+    <table mat-table [dataSource]="results()" class="mat-elevation-z1 w-100">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let r"> {{r.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="data">
+        <th mat-header-cell *matHeaderCellDef> Data </th>
+        <td mat-cell *matCellDef="let r"> {{r.dataAcidente | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="empregador">
+        <th mat-header-cell *matHeaderCellDef> Empregador </th>
+        <td mat-cell *matCellDef="let r"> {{r.empregador?.razaoSocial}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let r" class="text-right">
+          <button mat-icon-button color="primary" (click)="handleView(r.id)" title="Visualizar Detalhes">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="results().length === 0" class="alert warning">
+    Nenhum acidente encontrado para os filtros informados.
+  </div>
+
+  <div class="mt-20">
+    <button mat-button (click)="handleBack()">VOLTAR PARA PESQUISA</button>
+  </div>
+</div>

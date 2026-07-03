@@ -1,0 +1,129 @@
+<div class="container mat-typography">
+  <h3>Investigações</h3>
+  
+  <div *ngIf="message()" class="alert mb-20">{{ message() }}</div>
+  
+  <div *ngIf="loading()" class="text-center mt-20">
+    <p>Carregando...</p>
+  </div>
+
+  <!-- Detail View -->
+  <mat-card *ngIf="selected() && !loading()" class="details-card">
+    <mat-card-header>
+      <mat-card-title>Investigação nº {{ selected()?.id }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-10">
+      <table class="table-details w-100 mb-20">
+        <tbody>
+          <tr>
+            <td class="w-150px"><strong>Agente responsável:</strong></td>
+            <td>{{ selected()?.responsavel?.nome }}</td>
+          </tr>
+          <tr>
+            <td><strong>Acidente nº:</strong></td>
+            <td>{{ selected()?.acidente?.id }}</td>
+          </tr>
+          <tr>
+            <td><strong>Data de abertura:</strong></td>
+            <td>{{ selected()?.dataInicio | date:'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr>
+            <td><strong>Data de finalização:</strong></td>
+            <td>{{ selected()?.dataFim | date:'dd/MM/yyyy' || '-' }}</td>
+          </tr>
+          <tr>
+            <td><strong>Descrição/Motivo:</strong></td>
+            <td>{{ selected()?.descricao }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Depoimentos -->
+      <h5 class="mt-20">Depoimentos</h5>
+      <div *ngIf="selected()?.depoimentos?.length; else noDepoimentos">
+        <table class="table-details w-100 mb-20">
+          <thead>
+            <tr>
+              <th class="text-left">Tipo</th>
+              <th class="text-left">Nome</th>
+              <th class="text-left">Data</th>
+              <th class="text-left">Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dep of selected()?.depoimentos">
+              <td>{{ dep.tipo }}</td>
+              <td>{{ dep.testemunha?.nome }}</td>
+              <td>{{ dep.dataDepoimento | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ dep.relato }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noDepoimentos><p class="text-muted">Nenhum depoimento registrado.</p></ng-template>
+
+      <!-- Medidas Corretivas -->
+      <h5 class="mt-20">Medidas Corretivas</h5>
+      <div *ngIf="selected()?.medidasCorretivasInvestigacao?.length; else noMedidas">
+        <table class="table-details w-100 mb-20">
+          <thead>
+            <tr>
+              <th class="text-left">Medida</th>
+              <th class="text-left">Prazo (dias)</th>
+              <th class="text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let med of selected()?.medidasCorretivasInvestigacao">
+              <td>{{ med.descricao }}</td>
+              <td>{{ med.dataPrevista | date:'dd/MM/yyyy' || '-' }}</td>
+              <td>{{ med.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noMedidas><p class="text-muted">Nenhuma medida corretiva registrada.</p></ng-template>
+
+      <!-- Actions -->
+      <div *ngIf="!selected()?.dataFim" class="form-actions mt-20">
+        <button mat-raised-button color="primary" (click)="handleUpdate()">
+          <mat-icon>edit</mat-icon> ATUALIZAR DADOS
+        </button>
+        <button mat-raised-button color="accent" (click)="handleDepoimentos()">
+          <mat-icon>chat</mat-icon> DEPOIMENTOS
+        </button>
+        <button mat-raised-button color="accent" (click)="handleMedidas()">
+          <mat-icon>assignment</mat-icon> MEDIDAS CORRETIVAS
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="section mt-30">
+    <h4>Lista de Investigações</h4>
+    <table class="table-details w-100 mat-elevation-z1">
+      <thead>
+        <tr>
+          <th class="text-left p-10">Investigação</th>
+          <th class="text-left p-10">Agente Responsável</th>
+          <th class="text-left p-10">Motivo</th>
+          <th class="text-left p-10">Trabalhador</th>
+          <th class="text-left p-10">Data Acidente</th>
+          <th class="text-left p-10">Data Abertura</th>
+          <th class="text-left p-10">Data Finalização</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inv of investigacoes()" (click)="handleSelect(inv.id)" [class.selected-row]="selected()?.id === inv.id" class="clickable-row">
+          <td class="p-10">{{ inv.id }}</td>
+          <td class="p-10">{{ inv.responsavel?.nome }}</td>
+          <td class="p-10">{{ inv.descricao }}</td>
+          <td class="p-10">{{ inv.acidente?.trabalhador?.nome }}</td>
+          <td class="p-10">{{ inv.acidente?.dataAcidente | date:'dd/MM/yyyy' }}</td>
+          <td class="p-10">{{ inv.dataInicio | date:'dd/MM/yyyy' }}</td>
+          <td class="p-10">{{ inv.dataFim | date:'dd/MM/yyyy' || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
